@@ -1,0 +1,84 @@
+
+Tasks
+----
+
+- Selecionar imagem da entidade
+- Lista de eventos
+	- Tela de parametrização do evento de mensagem
+- Personagem + movimentação por tiles + PlayScene
+- Colisão nos layers
+- Colisão nas entidades (adicionar "passável" na tela do editor)
+- Executar eventos com interação nas entidades
+- Lista de mapas funcional (adicionar/alterar mapa atual)
+- Evento de mudança de mapa
+	- Tela da mudança de mapa deve mostrar mapas possiveis e campo de X e Y pra aparecer
+- Executar eventos com contato nas entidades
+- Executar eventos automáticos ao aparecer no mapa
+
+...
+- Estados nas entidades controlados por switches e variáveis
+- Pensar em mais eventos (consultar RPG Maker pra idéias)
+- Mudar nome e sprite do personagem principal
+- Itens (evento: Adicionar/Remover item)
+- Criar menu com informações do jogador e itens
+
+====================================
+
+Objetivos
+---------
+
+Criar jogos no estilo aventura/RPG com interface fácil.
+
+---
+
+Editor
+------
+
+O editor é composto por:
+
+- Mapas: uma coleção de mapas onde o jogo se desenrola
+- Itens: um cadastro dos itens disponíveis ao jogador
+- Personagem: um cadastro com informações do personagem controlador pelo jogador
+
+Mapas
+-----
+
+Cada mapa é composto por:
+
+- Terreno: uma camada de tiles para o terreno
+- Construções: uma camada de tiles para construções impassáveis pelo jogador
+- Acima: uma camada de tiles que estão acima do jogador
+- Objetos: uma camada de objetos com propriedades e eventos
+
+---
+
+Objetos
+-------
+
+Cada objeto é composto por um estado padrão e N estados personalizados.
+Um estado personalizado é ativado quando sua condição é verdadeira.
+
+Um estado é composto por:
+
+- Sprite: a imagem do objeto, caso possua
+- Passável: se o objeto é passável ou não
+- Execução: o tipo de execução do evento (automática, interação, contato)
+- Lista de eventos: uma lista de eventos em sequência que serão executados
+
+---
+
+Eventos
+-------
+
+Os eventos executam comportamentos dentro do jogo. Os eventos disponíveis são:
+
+- Mensagem: mostra uma mensagem em tela
+- Mudar Mapa: muda o mapa atual
+- Deletar entidade: passar nome como parâmetro
+- Mostrar/Esconder entidade: passar nome como parâmetro
+
+
+---
+
+Icones: OpenGameArt
+https://opengameart.org/content/tiny-16-basic
