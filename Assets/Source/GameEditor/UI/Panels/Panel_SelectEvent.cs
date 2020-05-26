@@ -7,6 +7,7 @@ using UnityEngine;
 public class Panel_SelectEvent : MonoBehaviour, IEditorPanel
 {
     public GameObject messagePrefab;
+    public GameObject changeMapPrefab;
 
     public Action<GameEvent> OnSelected;
 
@@ -15,13 +16,13 @@ public class Panel_SelectEvent : MonoBehaviour, IEditorPanel
         GameObject prefab = null;
 
         if (eventType == "message")
-        {
             prefab = messagePrefab;
-        }
+        else if (eventType == "changeMap")
+            prefab = changeMapPrefab;
 
         if (prefab != null)
         {
-            var panel = Instantiate(messagePrefab, Global.canvasObject.transform);
+            var panel = Instantiate(prefab, Global.canvasObject.transform);
             panel.GetComponent<IEventParameterPanel>().OnCreateEvent(ev =>
             {
                 OnSelected?.Invoke(ev);

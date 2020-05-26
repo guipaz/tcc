@@ -17,7 +17,7 @@ public class EventPanel_Message : MonoBehaviour, IEventParameterPanel
         {
             message = textField.text
         });
-        Global.master.ClosePanel(gameObject);
+        Global.master.ClosePanel(gameObject, true);
     }
 
     public void OnCreateEvent(Action<GameEvent> action)

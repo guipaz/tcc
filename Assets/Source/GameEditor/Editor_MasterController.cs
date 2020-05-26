@@ -81,10 +81,15 @@ public class Editor_MasterController : MonoBehaviour
         return obj;
     }
 
-    public void ClosePanel(GameObject obj)
+    public void ClosePanel(GameObject obj, bool destroy = false)
     {
         OverlayPanel?.SetActive(false);
         obj?.SetActive(false);
+
+        if (destroy && obj != null)
+        {
+            Destroy(obj);
+        }
     }
 
     public void ClosePanel(string name)

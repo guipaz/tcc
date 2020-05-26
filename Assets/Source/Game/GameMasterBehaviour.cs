@@ -5,20 +5,17 @@ using UnityEngine;
 
 public class GameMasterBehaviour : MonoBehaviour
 {
+    public static GameMasterBehaviour main;
+
     public PlayerBehaviour player;
     public GameObject entityPrefab;
 
     void Start()
     {
-        //TODO load game
-        //TODO instantiate first map
-        Debug.Log(Global.currentMap);
+        main = this;
 
-        InstantiateMap(Global.currentMap);
-
-        player.transform.localPosition = new Vector3(Global.currentMap.width / 2, Global.currentMap.height / 2, player.transform.localPosition.z);
-
-        player.CenterCamera();
+        //TODO set first map and position
+        GameState.main.ChangeMap(Global.game.maps[0].name, 0, 0);
     }
 
     public void Update()
@@ -51,11 +48,11 @@ public class GameMasterBehaviour : MonoBehaviour
         }
     }
 
-    void InstantiateMap(GameMap map)
+    public void InstantiateMap(GameMap map)
     {
         var mapObject = GameObject.Find("Map");
         foreach (Transform child in mapObject.transform)
-            Destroy(child);
+            Destroy(child.gameObject);
 
         InstantiateLayer(mapObject, map, Layers.Terrain, map.terrainLayer, 2);
         InstantiateLayer(mapObject, map, Layers.Construction, map.constructionLayer, 1);

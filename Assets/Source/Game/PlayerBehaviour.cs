@@ -55,7 +55,7 @@ public class PlayerBehaviour : MonoBehaviour
                 }
             }
 
-            if (!blockedByEntity && Global.currentMap.constructionLayer.tids[(int)finalPos.x, (int)finalPos.y] == -1)
+            if (Global.currentMap.IsInside((int)finalPos.x, (int)finalPos.y) && !blockedByEntity && Global.currentMap.constructionLayer.tids[(int)finalPos.x, (int)finalPos.y] == -1)
             {
                 transform.localPosition = new Vector3(finalPos.x, finalPos.y, transform.localPosition.z);
                 CenterCamera();

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Editor_MapController : MonoBehaviour
 {
     public GameObject tilePrefab;
+    public GameObject entityPrefab;
 
     public void Commit()
     {
@@ -41,11 +42,19 @@ public class Editor_MapController : MonoBehaviour
         GenerateLayer(Layers.Above.ToString(), width, height, 1, Global.currentMap.aboveLayer);
 
         // entities
-        var layer = new GameObject(name);
+        var layer = new GameObject(Layers.Entities.ToString());
         layer.transform.parent = transform;
         layer.transform.localPosition = new Vector3(0, 0, 0);
 
+        foreach (var gameEntity in Global.currentMap.entityLayer.entities)
+        {
+            var entity = Instantiate(entityPrefab, layer.transform);
+            entity.transform.localPosition = new Vector3((int)(gameEntity.location.x + 0.5f), (int)(gameEntity.location.y + 0.5f), 0);
 
+            var editorEntity = entity.GetComponent<EditorEntity>();
+            editorEntity.gameEntity = gameEntity;
+            editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity?.gameEntity?.image ?? Resources.Load<Sprite>("ICO_Feint");
+        }
 
         // camera position
         Camera.main.transform.position = new Vector3(transform.position.x + width / 2, transform.position.y + height / 2, Camera.main.transform.position.z);
