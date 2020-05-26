@@ -11,7 +11,7 @@ Tasks
 - Colisão nas entidades (adicionar "passável" na tela do editor)
 - Executar eventos com interação nas entidades
 - Executar eventos com contato nas entidades
-- Lista de mapas funcional (adicionar/alterar mapa atual)
+- Lista de mapas funcional (adicionar/alterar mapa atual) 
 
 - Evento de mudança de mapa
 	- Tela da mudança de mapa deve mostrar mapas possiveis e campo de X e Y pra aparecer
