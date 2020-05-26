@@ -7,6 +7,8 @@ public class Editor_Cursor : MonoBehaviour
 {
     public GameObject entityPrefab;
 
+    public int currentTid = -1;
+
     void Update()
     {
         var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -73,11 +75,20 @@ public class Editor_Cursor : MonoBehaviour
                         if (parentName == Global.currentLayer.ToString())
                         {
                             hit.collider.gameObject.GetComponent<SpriteRenderer>().sprite = Global.cursorAdd ? GetComponent<SpriteRenderer>().sprite : null;
+                            hit.collider.gameObject.GetComponent<EditorTile>().tid = currentTid;
+
                             break;
                         }
                     }
                 }
             }
         }
+    }
+
+    public void SetTile(int tid)
+    {
+        var tile = tid >= 0 ? Global.currentMap.tileset.tiles[tid] : null;
+        Global.cursorObject.GetComponent<SpriteRenderer>().sprite = tile;
+        currentTid = tid;
     }
 }

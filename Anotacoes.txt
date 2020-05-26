@@ -6,6 +6,8 @@ Tasks
 - Lista de eventos
 	- Tela de parametrização do evento de mensagem
 - Personagem + movimentação por tiles + PlayScene
+
+- Reproduzir tiles e criar entidades no PlayScene
 - Colisão nos layers
 - Colisão nas entidades (adicionar "passável" na tela do editor)
 - Executar eventos com interação nas entidades
@@ -21,6 +23,7 @@ Tasks
 - Mudar nome e sprite do personagem principal
 - Itens (evento: Adicionar/Remover item)
 - Criar menu com informações do jogador e itens
+- Persistência
 
 ====================================
 

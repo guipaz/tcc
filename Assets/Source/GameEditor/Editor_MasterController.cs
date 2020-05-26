@@ -1,7 +1,7 @@
 ﻿using Assets;
-using Assets.Source;
 using Assets.Source.Model;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Editor_MasterController : MonoBehaviour
 {
@@ -14,6 +14,15 @@ public class Editor_MasterController : MonoBehaviour
     public void Awake()
     {
         Global.master = this;
+    }
+
+    public void RunGame()
+    {
+        // commits map changes
+        GameObject.Find("Editor_Map").GetComponent<Editor_MapController>().Commit();
+
+        // change scene
+        SceneManager.LoadScene("PlayScene");
     }
 
     public void Start()

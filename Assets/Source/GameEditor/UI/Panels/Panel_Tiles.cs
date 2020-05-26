@@ -1,5 +1,4 @@
-﻿using Assets.Source;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Panel_Tiles : MonoBehaviour
@@ -7,20 +6,24 @@ public class Panel_Tiles : MonoBehaviour
     public GameObject container;
     public GameObject tilePrefab;
 
-    Sprite cursorPreviousSprite;
+    int cursorPreviousTid = -1;
 
     public void SetAdd()
     {
         Global.cursorAdd = true;
-        if (cursorPreviousSprite != null)
-            Global.cursorObject.GetComponent<SpriteRenderer>().sprite = cursorPreviousSprite;
+        if (cursorPreviousTid != -1)
+        {
+            Global.cursorObject.GetComponent<Editor_Cursor>().SetTile(cursorPreviousTid);
+        }
     }
 
     public void SetRmv()
     {
         Global.cursorAdd = false;
-        cursorPreviousSprite = Global.cursorObject.GetComponent<SpriteRenderer>().sprite;
-        Global.cursorObject.GetComponent<SpriteRenderer>().sprite = null;
+        
+        cursorPreviousTid = Global.cursorObject.GetComponent<Editor_Cursor>().currentTid;
+
+        Global.cursorObject.GetComponent<Editor_Cursor>().SetTile(-1);
     }
 
     public void SetupTiles()
@@ -28,14 +31,17 @@ public class Panel_Tiles : MonoBehaviour
         foreach (Transform child in container.transform)
             Destroy(child.gameObject);
 
+        var tid = 0;
         foreach (var tile in Global.currentMap.tileset.tiles)
         {
+            var currentTid = tid;
             var obj = Instantiate(tilePrefab, container.transform);
             obj.GetComponent<Image>().sprite = tile;
             obj.GetComponent<PanelTile>().onClick = () =>
             {
-                Global.cursorObject.GetComponent<SpriteRenderer>().sprite = tile;
+                Global.cursorObject.GetComponent<Editor_Cursor>().SetTile(currentTid);
             };
+            tid++;
         }
     }
 }

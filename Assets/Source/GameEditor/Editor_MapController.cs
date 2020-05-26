@@ -1,9 +1,32 @@
 ﻿using Assets.Source;
+using Assets.Source.Model;
 using UnityEngine;
 
 public class Editor_MapController : MonoBehaviour
 {
     public GameObject tilePrefab;
+
+    public void Commit()
+    {
+        //TODO put changes inside map
+
+        var terrainLayer = GameObject.Find(Layers.Terrain.ToString());
+        var constructionLayer = GameObject.Find(Layers.Construction.ToString());
+        var aboveLayer = GameObject.Find(Layers.Above.ToString());
+
+        AddToLayer(terrainLayer, Global.currentMap.terrainLayer);
+        AddToLayer(constructionLayer, Global.currentMap.constructionLayer);
+        AddToLayer(aboveLayer, Global.currentMap.aboveLayer);
+    }
+
+    void AddToLayer(GameObject layerObject, GameMapTileLayer tileLayer)
+    {
+        foreach (Transform child in layerObject.transform)
+        {
+            var editorTile = child.GetComponent<EditorTile>();
+            tileLayer.tids[editorTile.x, editorTile.y] = editorTile.tid;
+        }
+    }
 
     public void GenerateCurrentMap()
     {
@@ -33,6 +56,11 @@ public class Editor_MapController : MonoBehaviour
                     var obj = Instantiate(tilePrefab, layer.transform, true);
                     obj.transform.localPosition = new Vector3(x, y, 0);
                     obj.GetComponent<SpriteRenderer>().sprite = null;
+
+                    var editorTile = obj.GetComponent<EditorTile>();
+                    editorTile.x = x;
+                    editorTile.y = y;
+                    editorTile.tid = -1;
                 }
             }
         }
