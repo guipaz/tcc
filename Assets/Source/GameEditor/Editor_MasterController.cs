@@ -18,17 +18,22 @@ public class Editor_MasterController : MonoBehaviour
 
     public void RunGame()
     {
-        // commits map changes
-        GameObject.Find("Editor_Map").GetComponent<Editor_MapController>().Commit();
+        CommitCurrentMap();
 
         // change scene
         SceneManager.LoadScene("PlayScene");
     }
 
+    public void CommitCurrentMap()
+    {
+        // commits map changes
+        GameObject.Find("Editor_Map").GetComponent<Editor_MapController>().Commit();
+    }
+
     public void Start()
     {
         Global.game = new Game();
-        Global.currentMap = new GameMap(30, 20);
+        Global.currentMap = new GameMap(30, 20) { name = "Testando mapa" };
         Global.game.maps.Add(Global.currentMap);
         Global.canvasObject = GameObject.Find("Canvas");
 
@@ -40,8 +45,19 @@ public class Editor_MasterController : MonoBehaviour
 
         Global.cursorObject = GameObject.Find("Editor_Cursor");
 
-        GameObject.Find("Editor_Map").GetComponent<Editor_MapController>().GenerateCurrentMap();
         GameObject.Find("Panel_Tiles").GetComponent<Panel_Tiles>().SetupTiles();
+
+        LoadCurrentMap();
+    }
+
+    public void LoadCurrentMap()
+    {
+        GameObject.Find("Editor_Map").GetComponent<Editor_MapController>().GenerateCurrentMap();
+    }
+
+    public void OpenPanelVoid(string name)
+    {
+        OpenPanel(name);
     }
 
     public GameObject OpenPanel(string name)
@@ -67,13 +83,12 @@ public class Editor_MasterController : MonoBehaviour
 
     public void ClosePanel(GameObject obj)
     {
+        OverlayPanel?.SetActive(false);
         obj?.SetActive(false);
     }
 
     public void ClosePanel(string name)
     {
-        OverlayPanel?.SetActive(false);
-
         GameObject obj = null;
 
         if (name == "maps")

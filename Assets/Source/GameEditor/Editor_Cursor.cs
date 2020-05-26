@@ -41,7 +41,10 @@ public class Editor_Cursor : MonoBehaviour
                     entity = Instantiate(entityPrefab, GameObject.Find(Layers.Entities.ToString()).transform);
                     entity.transform.localPosition = new Vector3((int)(pos.x + 0.5f), (int)(pos.y + 0.5f), 0);
 
-                    var gameEntity = new GameEntity();
+                    var gameEntity = new GameEntity
+                    {
+                        location = new Vector2(entity.transform.localPosition.x, entity.transform.localPosition.y)
+                    };
                     Global.currentMap.entityLayer.entities.Add(gameEntity);
                     entity.GetComponent<EditorEntity>().gameEntity = gameEntity;
                 }

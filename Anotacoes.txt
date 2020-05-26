@@ -6,15 +6,15 @@ Tasks
 - Lista de eventos
 	- Tela de parametrização do evento de mensagem
 - Personagem + movimentação por tiles + PlayScene
-
-- Reproduzir tiles e criar entidades no PlayScene
 - Colisão nos layers
+- Reproduzir tiles e criar entidades no PlayScene
 - Colisão nas entidades (adicionar "passável" na tela do editor)
 - Executar eventos com interação nas entidades
+- Executar eventos com contato nas entidades
 - Lista de mapas funcional (adicionar/alterar mapa atual)
+
 - Evento de mudança de mapa
 	- Tela da mudança de mapa deve mostrar mapas possiveis e campo de X e Y pra aparecer
-- Executar eventos com contato nas entidades
 - Executar eventos automáticos ao aparecer no mapa
 
 ...
@@ -23,7 +23,9 @@ Tasks
 - Mudar nome e sprite do personagem principal
 - Itens (evento: Adicionar/Remover item)
 - Criar menu com informações do jogador e itens
+- Usar um "GameState" ao invés do Global pra ter o fluxo do jogo
 - Persistência
+- Voltar do Play pro Editor
 
 ====================================
 

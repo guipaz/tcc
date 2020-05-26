@@ -1,10 +1,12 @@
 ﻿using Assets.Source;
+using Assets.Source.Game;
 using Assets.Source.Model;
 using UnityEngine;
 
 public class GameMasterBehaviour : MonoBehaviour
 {
     public PlayerBehaviour player;
+    public GameObject entityPrefab;
 
     void Start()
     {
@@ -19,6 +21,36 @@ public class GameMasterBehaviour : MonoBehaviour
         player.CenterCamera();
     }
 
+    public void Update()
+    {
+        if (GameState.main.currentExecutedEntity != null)
+        {
+            if (GameState.main.currentExecutedEntity.events.Count > GameState.main.currentExecutedEventIndex)
+            {
+                var currentEvent =
+                    GameState.main.currentExecutedEntity.events[GameState.main.currentExecutedEventIndex];
+
+                if (!currentEvent.startedExecution)
+                {
+                    currentEvent.Execute();
+                    currentEvent.startedExecution = true;
+                }
+                else if (!currentEvent.finishedExecution)
+                {
+                    currentEvent.Update();
+                }
+                else
+                {
+                    GameState.main.currentExecutedEventIndex++;
+                }
+            }
+            else
+            {
+                GameState.main.currentExecutedEntity = null;
+            }
+        }
+    }
+
     void InstantiateMap(GameMap map)
     {
         var mapObject = GameObject.Find("Map");
@@ -29,7 +61,15 @@ public class GameMasterBehaviour : MonoBehaviour
         InstantiateLayer(mapObject, map, Layers.Construction, map.constructionLayer, 1);
         InstantiateLayer(mapObject, map, Layers.Above, map.aboveLayer, -1);
 
-        //TODO entities
+        var layerObject = new GameObject(Layers.Entities.ToString());
+        layerObject.transform.parent = mapObject.transform;
+        foreach (var entity in map.entityLayer.entities)
+        {
+            var entityObject = Instantiate(entityPrefab, layerObject.transform);
+            entityObject.transform.localPosition = new Vector3(entity.location.x, entity.location.y, 0);
+            entityObject.GetComponent<SpriteRenderer>().sprite = entity.image;
+            entityObject.GetComponent<EntityBehaviour>().gameEntity = entity;
+        }
     }
 
     void InstantiateLayer(GameObject mapObject, GameMap map, Layers layerType, GameMapTileLayer layer, int depth)

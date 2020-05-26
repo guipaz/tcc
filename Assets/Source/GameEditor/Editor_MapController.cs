@@ -30,38 +30,47 @@ public class Editor_MapController : MonoBehaviour
 
     public void GenerateCurrentMap()
     {
+        foreach (Transform child in transform)
+            Destroy(child.gameObject);
+
         var width = Global.currentMap.width;
         var height = Global.currentMap.height;
 
-        GenerateLayer(Layers.Terrain.ToString(), width, height, 3);
-        GenerateLayer(Layers.Construction.ToString(), width, height, 2);
-        GenerateLayer(Layers.Above.ToString(), width, height, 1);
-        GenerateLayer(Layers.Entities.ToString(), width, height, 0, false);
+        GenerateLayer(Layers.Terrain.ToString(), width, height, 3, Global.currentMap.terrainLayer);
+        GenerateLayer(Layers.Construction.ToString(), width, height, 2, Global.currentMap.constructionLayer);
+        GenerateLayer(Layers.Above.ToString(), width, height, 1, Global.currentMap.aboveLayer);
 
+        // entities
+        var layer = new GameObject(name);
+        layer.transform.parent = transform;
+        layer.transform.localPosition = new Vector3(0, 0, 0);
+
+
+
+        // camera position
         Camera.main.transform.position = new Vector3(transform.position.x + width / 2, transform.position.y + height / 2, Camera.main.transform.position.z);
     }
 
-    void GenerateLayer(string name, int width, int height, int depth, bool populate = true)
+    void GenerateLayer(string name, int width, int height, int depth, GameMapTileLayer tileLayer)
     {
         var layer = new GameObject(name);
         layer.transform.parent = transform;
         layer.transform.localPosition = new Vector3(0, 0, depth);
 
-        if (populate)
+        for (var y = 0; y < height; y++)
         {
-            for (var y = 0; y < height; y++)
+            for (var x = 0; x < width; x++)
             {
-                for (var x = 0; x < width; x++)
-                {
-                    var obj = Instantiate(tilePrefab, layer.transform, true);
-                    obj.transform.localPosition = new Vector3(x, y, 0);
-                    obj.GetComponent<SpriteRenderer>().sprite = null;
+                var tid = tileLayer.tids[x, y];
 
-                    var editorTile = obj.GetComponent<EditorTile>();
-                    editorTile.x = x;
-                    editorTile.y = y;
-                    editorTile.tid = -1;
-                }
+                var obj = Instantiate(tilePrefab, layer.transform, true);
+                obj.transform.localPosition = new Vector3(x, y, 0);
+                obj.GetComponent<SpriteRenderer>().sprite = tid != -1 ? Global.currentMap.tileset.tiles[tid] : null;
+
+                var editorTile = obj.GetComponent<EditorTile>();
+                editorTile.x = x;
+                editorTile.y = y;
+                editorTile.tid = tid;
             }
         }
     }

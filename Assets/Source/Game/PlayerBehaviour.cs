@@ -1,15 +1,25 @@
-﻿using UnityEngine;
+﻿using Assets.Source.Game;
+using Assets.Source.Model;
+using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
     Vector2 mov;
 
-    //TODO interaction
+    public Vector2 interactionVector;
 
     void Update()
     {
+        // entity being executed
+        if (GameState.main.currentExecutedEntity != null)
+        {
+            return;
+        }
+
         mov.x = 0;
         mov.y = 0;
+
+        GameEntity interactionEntity = null;
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
             mov.x = 1;
@@ -20,12 +30,56 @@ public class PlayerBehaviour : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
             mov.y = -1;
 
-        //TODO check collision
-
         if (mov != Vector2.zero)
         {
-            transform.localPosition = new Vector3(transform.localPosition.x + mov.x, transform.localPosition.y + mov.y, transform.localPosition.z);
-            CenterCamera();
+            interactionVector = mov;
+
+            var finalPos = new Vector2(transform.localPosition.x + mov.x, transform.localPosition.y + mov.y);
+
+            // collision
+            var blockedByEntity = false;
+            foreach (var entity in Global.currentMap.entityLayer.entities)
+            {
+                if (entity.location == finalPos)
+                {
+                    if (entity.passable && entity.execution == EntityExecution.Contact)
+                    {
+                        interactionEntity = entity;
+                    }
+                    else
+                    {
+                        blockedByEntity = true;
+                    }
+                    
+                    break;
+                }
+            }
+
+            if (!blockedByEntity && Global.currentMap.constructionLayer.tids[(int)finalPos.x, (int)finalPos.y] == -1)
+            {
+                transform.localPosition = new Vector3(finalPos.x, finalPos.y, transform.localPosition.z);
+                CenterCamera();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            foreach (var entity in Global.currentMap.entityLayer.entities)
+            {
+                var interactionLocation = new Vector2(transform.localPosition.x + interactionVector.x,
+                    transform.localPosition.y + interactionVector.y);
+
+                if (entity.location == interactionLocation && entity.execution == EntityExecution.Interaction)
+                {
+                    interactionEntity = entity;
+                    break;
+                }
+            }
+        }
+
+        if (interactionEntity != null)
+        {
+            GameState.main.ExecuteEntity(interactionEntity);
         }
     }
 

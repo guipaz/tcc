@@ -16,6 +16,8 @@ namespace Assets.Source.Model
         public EntityExecution execution;
         public Sprite image;
         public List<GameEvent> events;
+        public Vector2 location;
+        public bool passable = false;
 
         public GameEntity()
         {

@@ -12,6 +12,7 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
     public Image image;
     public InputField nameField;
     public Dropdown executionDropdown;
+    public Toggle passableToggle;
     public GameObject eventContent;
     public GameObject eventInfoPrefab;
 
@@ -58,6 +59,7 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
         selectedSprite = editorEntity?.gameEntity?.image;
 
         image.sprite = selectedSprite ?? image.sprite;
+        passableToggle.isOn = editorEntity?.gameEntity?.passable ?? false;
 
         if (editorEntity?.gameEntity?.events != null)
             foreach (var ev in editorEntity.gameEntity.events)
@@ -69,6 +71,7 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
         editorEntity.gameEntity.name = nameField.text;
         Enum.TryParse(executionDropdown.value.ToString(), out editorEntity.gameEntity.execution);
         editorEntity.gameEntity.image = selectedSprite;
+        editorEntity.gameEntity.passable = passableToggle.isOn;
 
         // events are already inside it
 
@@ -80,6 +83,7 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
         nameField.text = "";
         image.sprite = Resources.Load<Sprite>("noimage");
         selectedSprite = null;
+        passableToggle.isOn = false;
 
         foreach (Transform child in eventContent.transform)
             Destroy(child.gameObject);

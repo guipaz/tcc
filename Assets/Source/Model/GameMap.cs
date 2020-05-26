@@ -2,6 +2,7 @@
 {
     public class GameMap
     {
+        public string name;
         public readonly int width;
         public readonly int height;
 
