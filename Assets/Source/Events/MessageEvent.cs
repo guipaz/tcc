@@ -19,14 +19,17 @@ namespace Assets.Source.Events
 
         public override void Execute()
         {
-            finishedExecution = false;
-            Debug.Log(message);
+            MessagePanel.main.SetMessage(message);
+            MessagePanel.main.Toggle(true);
         }
 
         public override void Update()
         {
             if (Input.GetKeyDown(KeyCode.Z))
+            {
+                MessagePanel.main.Toggle(false);
                 finishedExecution = true;
+            }
         }
     }
 }

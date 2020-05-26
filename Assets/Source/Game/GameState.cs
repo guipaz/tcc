@@ -7,7 +7,7 @@ namespace Assets.Source.Game
     {
         public static GameState main = new GameState();
 
-        public GameMap currentMap;
+        public GameMap currentGameMap;
 
         // event execution
         public GameEntity currentExecutedEntity;
@@ -40,11 +40,20 @@ namespace Assets.Source.Game
             if (curr == null)
                 return;
 
-            Global.currentMap = curr;
+            currentGameMap = curr;
 
-            GameMasterBehaviour.main.InstantiateMap(Global.currentMap);
-            GameMasterBehaviour.main.player.transform.localPosition = new Vector3(x, Global.currentMap.height - y - 1, GameMasterBehaviour.main.player.transform.localPosition.z);
+            GameMasterBehaviour.main.InstantiateMap(currentGameMap);
+            GameMasterBehaviour.main.player.transform.localPosition = new Vector3(x, currentGameMap.height - y - 1, GameMasterBehaviour.main.player.transform.localPosition.z);
             GameMasterBehaviour.main.player.CenterCamera();
+
+            foreach (var e in currentGameMap.entityLayer.entities)
+            {
+                if (e.execution == EntityExecution.Automatic)
+                {
+                    ExecuteEntity(e);
+                    break;
+                }
+            }
         }
     }
 }

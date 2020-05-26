@@ -98,7 +98,7 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
 
     public void Delete()
     {
-        Global.currentMap.entityLayer.entities.Add(editorEntity.gameEntity);
+        Global.currentMap.entityLayer.entities.Remove(editorEntity.gameEntity);
         Destroy(editorEntity.gameObject);
         Close();
     }

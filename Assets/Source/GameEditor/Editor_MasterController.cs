@@ -2,6 +2,7 @@
 using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Editor_MasterController : MonoBehaviour
 {
@@ -32,9 +33,14 @@ public class Editor_MasterController : MonoBehaviour
 
     public void Start()
     {
-        Global.game = new Game();
-        Global.currentMap = new GameMap(30, 20) { name = "Testando mapa" };
-        Global.game.maps.Add(Global.currentMap);
+        if (Global.game == null)
+        {
+            Global.game = new Game();
+            Global.game.maps.Add(new GameMap(20, 20) { name = "Mapa 1" });
+        }
+
+        Global.currentMap = Global.game.maps[0];
+
         Global.canvasObject = GameObject.Find("Canvas");
 
         OverlayPanel?.SetActive(false);
@@ -53,6 +59,7 @@ public class Editor_MasterController : MonoBehaviour
     public void LoadCurrentMap()
     {
         GameObject.Find("Editor_Map").GetComponent<Editor_MapController>().GenerateCurrentMap();
+        GameObject.Find("CurrentMapName").GetComponent<Text>().text = Global.currentMap.name ?? "Sem nome";
     }
 
     public void OpenPanelVoid(string name)

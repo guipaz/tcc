@@ -6552,7 +6552,7 @@ GameObject:
   - component: {fileID: 1131924254}
   - component: {fileID: 1131924253}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CurrentMapName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,10 +12,13 @@ Tasks
 - Executar eventos com interação nas entidades
 - Executar eventos com contato nas entidades
 - Lista de mapas funcional (adicionar/alterar mapa atual)
-
 - Evento de mudança de mapa
 	- Tela da mudança de mapa deve mostrar mapas possiveis e campo de X e Y pra aparecer
 - Executar eventos automáticos ao aparecer no mapa
+- Voltar do Play pro Editor
+- Usar um "GameState" ao invés do Global pra ter o fluxo do jogo
+
+- Mostrar mensagem em tela
 
 ...
 - Estados nas entidades controlados por switches e variáveis
@@ -23,9 +26,8 @@ Tasks
 - Mudar nome e sprite do personagem principal
 - Itens (evento: Adicionar/Remover item)
 - Criar menu com informações do jogador e itens
-- Usar um "GameState" ao invés do Global pra ter o fluxo do jogo
 - Persistência
-- Voltar do Play pro Editor
+- Remover entityLayer e deixar só a lista de entities
 
 ====================================
 

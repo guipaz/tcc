@@ -2,6 +2,7 @@
 using Assets.Source.Game;
 using Assets.Source.Model;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMasterBehaviour : MonoBehaviour
 {
@@ -14,12 +15,20 @@ public class GameMasterBehaviour : MonoBehaviour
     {
         main = this;
 
+        MessagePanel.main.Toggle(false);
+
         //TODO set first map and position
         GameState.main.ChangeMap(Global.game.maps[0].name, 0, 0);
     }
 
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("EditorScene");
+            return;
+        }
+
         if (GameState.main.currentExecutedEntity != null)
         {
             if (GameState.main.currentExecutedEntity.events.Count > GameState.main.currentExecutedEventIndex)
