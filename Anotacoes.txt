@@ -42,15 +42,16 @@ Tasks
 - Evento "Ativar/desativar Interruptor" (nome, ativar/desativar)
 - Evento "Definir Variável" (nome, operação, valor)
 - Menu principal
+- Persistência
 
 ---
 
 Essencial
 
-- Persistência
 - Pathfinding
 - Alterar evento
 - Organizar código
+- Selecionar arquivo do projeto pra salvar/carregar
 
 Extensão
 
