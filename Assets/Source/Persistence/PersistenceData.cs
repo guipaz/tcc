@@ -54,22 +54,6 @@ public class PersistenceData
 
             return (T)(object)l;
         }
-        if (typeof(T) == typeof(List<JObject>))
-            return (T)(object)obj.ArrayValue;
-        if (typeof(T) == typeof(Vector3))
-            return (T)(object)obj.StringValue.ToVector3();
-        //if (typeof(T) == typeof(Vector2))
-        //    return (T)(object)obj.StringValue.ToVector2();
-        //if (typeof(T) == typeof(Sprite))
-        //    return (T)(object)Sprite.FromString(obj.StringValue);
-        //if (typeof(T) == typeof(Rectangle))
-        //    return (T)(object)obj.StringValue.ToRectangle();
-        //if (typeof(T) == typeof(Pos))
-        //    return (T) (object) obj.StringValue.ToPos();
-        //if (typeof(T) == typeof(Point))
-        //    return (T) (object) obj.StringValue.ToPoint();
-        //if (typeof(T) == typeof(Blueprint))
-        //    return (T)(object)Blueprint.Get(obj.StringValue);
 
 
         return (T)(object)obj;
@@ -77,6 +61,9 @@ public class PersistenceData
 
     public void Set<T>(string key, T obj)
     {
+        if (obj == null)
+            return;
+
         JObject jobject = null;
         if (typeof(T) == typeof(string) || typeof(T) == typeof(String))
             jobject = JObject.CreateString((string)(object)obj);
@@ -84,12 +71,6 @@ public class PersistenceData
             jobject = JObject.CreateInteger((int)(object)obj);
         if (typeof(T) == typeof(bool))
             jobject = JObject.CreateBoolean((bool)(object)obj);
-        if (typeof(T) == typeof(List<JObject>))
-            jobject = JObject.CreateArray((List<JObject>)(object)obj);
-        if (typeof(T) == typeof(Dictionary<string, JObject>))
-            jobject = JObject.CreateObject((Dictionary<string, JObject>)(object)obj);
-        if (typeof(T) == typeof(JObject))
-            jobject = (JObject)(object)obj;
         if (typeof(T) == typeof(PersistenceData))
             jobject = JObject.CreateObject(((PersistenceData)(object)obj).InternalData);
         if (typeof(T) == typeof(List<PersistenceData>))

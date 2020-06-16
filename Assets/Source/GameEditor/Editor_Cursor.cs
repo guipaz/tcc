@@ -45,7 +45,7 @@ public class Editor_Cursor : MonoBehaviour
                     {
                         location = new Vector2(entity.transform.localPosition.x, entity.transform.localPosition.y)
                     };
-                    Global.currentMap.entityLayer.entities.Add(gameEntity);
+                    Global.currentMap.entities.Add(gameEntity);
                     entity.GetComponent<EditorEntity>().gameEntity = gameEntity;
                 }
                 
@@ -90,7 +90,7 @@ public class Editor_Cursor : MonoBehaviour
 
     public void SetTile(int tid)
     {
-        var tile = tid >= 0 ? Global.currentMap.tileset.tiles[tid] : null;
+        var tile = tid >= 0 ? GameTileset.masterTileset.tiles[tid] : null;
         Global.cursorObject.GetComponent<SpriteRenderer>().sprite = tile;
         currentTid = tid;
     }

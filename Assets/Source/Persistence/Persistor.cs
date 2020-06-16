@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Persistor
 {
-    public const string DEFAULT_FOLDER = "save";
+    public static string DEFAULT_FOLDER = Application.dataPath + "/save/";
 
     public static Persistor instance { get; } = new Persistor();
 

@@ -105,7 +105,7 @@ public class GameMasterBehaviour : MonoBehaviour
 
         GameState.main.currentEntityBehaviours.Clear();
 
-        foreach (var entity in map.entityLayer.entities)
+        foreach (var entity in map.entities)
         {
             var entityObject = Instantiate(entityPrefab, entitiesLayer.transform);
             entityObject.name = string.IsNullOrEmpty(entity.name) ? "Entity" : entity.name;
@@ -179,7 +179,7 @@ public class GameMasterBehaviour : MonoBehaviour
                     obj.transform.localPosition = new Vector3(x, y, 0);
 
                     var spriteRenderer = obj.AddComponent<SpriteRenderer>();
-                    spriteRenderer.sprite = map.tileset.tiles[tid];
+                    spriteRenderer.sprite = GameTileset.masterTileset.tiles[tid];
                 }
             }
         }

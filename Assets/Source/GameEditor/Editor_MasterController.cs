@@ -20,6 +20,7 @@ public class Editor_MasterController : MonoBehaviour
     {
         Global.master = this;
 
+        // slices the tilesets for use later
         Global.tilesets = new Dictionary<string, GameTileset>();
         foreach (var sprite in Tilesets)
         {
@@ -33,6 +34,17 @@ public class Editor_MasterController : MonoBehaviour
 
         // change scene
         SceneManager.LoadScene("PlayScene");
+    }
+
+    public void Save()
+    {
+        //TODO
+        Persistor.instance.SaveFile<Game>(Persistor.DEFAULT_FOLDER + "save1.json", new [] { Global.game });
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene("MenuScene");
     }
 
     public void CommitCurrentMap()

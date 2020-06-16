@@ -59,5 +59,21 @@ namespace Assets.Source.Events
         public override void Update()
         {
         }
+
+        public override PersistenceData GetData()
+        {
+            var data = new PersistenceData();
+
+            data.Set("id", id);
+            data.Set("operation", operation);
+            data.Set("value", value);
+
+            return data;
+        }
+
+        public override void SetData(PersistenceData data)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

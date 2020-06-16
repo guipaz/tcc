@@ -4,7 +4,8 @@ namespace Assets.Source.Model
 {
     public class GameTileset
     {
-        public static GameTileset masterTileset = new GameTileset("Master_Tileset", Resources.Load<Sprite>("DawnLike/Master_Tileset"));
+        public const string MASTER_TILESET_ID = "Master_Tileset";
+        public static GameTileset masterTileset = new GameTileset(MASTER_TILESET_ID, Resources.Load<Sprite>("DawnLike/Master_Tileset"));
 
         public string name;
         public Sprite originalImage;
@@ -12,6 +13,7 @@ namespace Assets.Source.Model
 
         public GameTileset(string name, Sprite originalImage, int tileSize = 16)
         {
+            this.name = name;
             this.originalImage = originalImage;
 
             var tilesX = originalImage.texture.width / tileSize;

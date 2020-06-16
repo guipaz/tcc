@@ -32,5 +32,20 @@ namespace Assets.Source.Events
         {
             //TODO transition
         }
+
+        public override PersistenceData GetData()
+        {
+            var data = new PersistenceData();
+
+            data.Set("id", id);
+            data.Set("sprite", sprite?.ToJSON());
+
+            return data;
+        }
+
+        public override void SetData(PersistenceData data)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

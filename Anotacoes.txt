@@ -2,15 +2,19 @@
 Artigo
 ------
 
-- "Pedagógico": deixar ou tirar?
-
 - Descrição
-	- Persistência/leitura e execução/JSON/Prefabs
+	- Persistência com reflexão, JSON, Prefabs
 	- Pathfinding
-	- Diagramas (3)
-	- Trechos de código (3)
 	- Cenas: Editor e Game
 	- Organização do código (pastas e funcionalidades)
+	- Diagramas (3)
+		- Persistência (reflexão e models)
+		- Entidades, estados e eventos
+		- Fluxo geral
+	- Trechos de código (3)
+		- Persistência
+		- A* Pathfinding
+		- Verificação de estados
 - Manual
 	- Estados, Interruptores e Variáveis
 	- Mapas

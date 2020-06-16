@@ -30,5 +30,21 @@ namespace Assets.Source.Events
         {
             //TODO transition
         }
+
+        public override PersistenceData GetData()
+        {
+            var data = new PersistenceData();
+
+            data.Set("mapName", mapName);
+            data.Set("x", x);
+            data.Set("y", y);
+
+            return data;
+        }
+
+        public override void SetData(PersistenceData data)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
