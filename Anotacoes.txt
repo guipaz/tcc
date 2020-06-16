@@ -35,19 +35,29 @@ Tasks
 - Evento "Mudar imagem de entidade" (nome, imagem)
 - Evento "Mover entidade" (nome, x, y)
 - Estados nas entidades
+- Evento "Ativar/desativar Interruptor" (nome, ativar/desativar)
+- Evento "Definir Variável" (nome, operação, valor)
 
 ---
 
-- Evento "Ativar/desativar Interruptor" (nome, ativar/desativar)
-- Evento "Definir Variável" (nome, operação, valor)
-- Alterar evento
+Essencial
+
 - Persistência
+- Pathfinding
 - Menu principal
+- Alterar evento
+- Organizar código
+
+Extensão
+
+- Evento "Mover aleatoriamente"
+- Evento "Esperar"
+- Execução "Constante"
 - Pensar em mais eventos (consultar RPG Maker pra idéias)
 - Itens (evento: Adicionar/Remover item)
 - Criar menu com informações do jogador e itens
-- Organizar código
 - Botar overlay atrás do UI atual
+- Titulo no evento de Mensagem
 
 ====================================
 
