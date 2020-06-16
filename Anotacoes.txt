@@ -4,50 +4,51 @@ Artigo
 
 - "Pedagógico": deixar ou tirar?
 
-- Focar no cap. 3
-	- Persistência/leitura e execução
-	- 
-- Diagramas (3)
-- Trechos de código (3)
-- EULER
-- https://furb-my.sharepoint.com/:b:/g/personal/dalton_furb_br/EXIsc68OIZtLpBqb5UQ33O8BVNaIRT6po2VHTxd9JVc7yw?e=cfAzJg
+- Descrição
+	- Persistência/leitura e execução/JSON/Prefabs
+	- Pathfinding
+	- Diagramas (3)
+	- Trechos de código (3)
+	- Cenas: Editor e Game
+	- Organização do código (pastas e funcionalidades)
+- Manual
+	- Estados, Interruptores e Variáveis
+	- Mapas
+	- Entidades e Eventos
+- Conclusão
+	- Dificuldade: UI do Unity (mais tempo na interface do que na lógica)
+- Ver trabalhos
+	- EULER
+	- https://furb-my.sharepoint.com/:b:/g/personal/dalton_furb_br/EXIsc68OIZtLpBqb5UQ33O8BVNaIRT6po2VHTxd9JVc7yw?e=cfAzJg
+- Citações
+	- PixelPerfectCamera (fonte externo)
+	- SimpleJSON (fonte externo)
+	- DawnLike
 
 =======
 
 Tasks
 ----
 
-- Selecionar imagem da entidade
-- Lista de eventos
-	- Tela de parametrização do evento de mensagem
-- Personagem + movimentação por tiles + PlayScene
-- Colisão nos layers
-- Reproduzir tiles e criar entidades no PlayScene
-- Colisão nas entidades (adicionar "passável" na tela do editor)
-- Executar eventos com interação nas entidades
-- Executar eventos com contato nas entidades
-- Lista de mapas funcional (adicionar/alterar mapa atual)
-- Evento de mudança de mapa
-	- Tela da mudança de mapa deve mostrar mapas possiveis e campo de X e Y pra aparecer
-- Executar eventos automáticos ao aparecer no mapa
-- Voltar do Play pro Editor
-- Usar um "GameState" ao invés do Global pra ter o fluxo do jogo
-- Mostrar mensagem em tela
-- Mudar nome e sprite do personagem principal e definir onde ele começa
+- Alterar mapas
+- Selecionar sprite de várias texturas
 
 ---
 
 - Estados nas entidades
-- Evento "Ativar/desativar Interruptor"
-- Evento "Definir Variável"
-- Evento "Aumentar/diminuir Variável"
+- Evento "Ativar/desativar Interruptor" (nome, ativar/desativar)
+- Evento "Definir Variável" (nome, valor)
+- Evento "Aumentar/diminuir Variável" (nome, aumentar/diminuir, valor)
+- Evento "Mover entidade" (nome, x, y)
+- Evento "Destruir entidade" (nome)
+- Evento "Mudar imagem de entidade" (nome, imagem)
 - Persistência
 - Menu principal
-- Multiplos tilesets
-- Alterar mapas
 - Pensar em mais eventos (consultar RPG Maker pra idéias)
 - Itens (evento: Adicionar/Remover item)
 - Criar menu com informações do jogador e itens
+- Organizar código
+- Botar overlay atrás do UI atual
 
 ====================================
 
@@ -145,12 +146,6 @@ OLD
 - Substituir "componentes" por "eventos"
 
 ---
-
-> Citar ECS
-> Citar mensageria (Brian Bucklew)
-> Citar RPG Maker
-> Citar PixelPerfectCamera (fonte externo)
-> Citar SimpleJSON (fonte externo)
 
 =========================
 

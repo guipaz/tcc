@@ -1,4 +1,5 @@
-﻿using Assets;
+﻿using System.Collections.Generic;
+using Assets;
 using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,10 +13,17 @@ public class Editor_MasterController : MonoBehaviour
     public GameObject SelectImagePanel;
     public GameObject SelectEventPanel;
     public GameObject CharacterPanel;
+    public Sprite[] Tilesets;
 
     public void Awake()
     {
         Global.master = this;
+
+        Global.tilesets = new Dictionary<string, GameTileset>();
+        foreach (var sprite in Tilesets)
+        {
+            Global.tilesets[sprite.name] = new GameTileset(sprite.name, sprite);
+        }
     }
 
     public void RunGame()

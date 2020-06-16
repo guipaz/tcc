@@ -1,4 +1,5 @@
-﻿using Assets.Source;
+﻿using System.Collections.Generic;
+using Assets.Source;
 using Assets.Source.Model;
 using UnityEngine;
 
@@ -11,4 +12,5 @@ public static class Global
     public static GameMap currentMap;
     public static Editor_MasterController master;
     public static GameObject canvasObject;
+    public static Dictionary<string, GameTileset> tilesets;
 }

@@ -34,4 +34,9 @@ public class Panel_SelectEvent : MonoBehaviour, IEditorPanel
     public void DialogOpened()
     {
     }
+
+    public void Close()
+    {
+        Global.master.ClosePanel(gameObject);
+    }
 }

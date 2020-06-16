@@ -21,6 +21,11 @@ public class Panel_Maps : MonoBehaviour, IEditorPanel
         Reload();
     }
 
+    public void Close()
+    {
+        Global.master.ClosePanel(gameObject);
+    }
+
     void Reload()
     {
         foreach (Transform child in content.transform)
@@ -68,8 +73,11 @@ public class Panel_Maps : MonoBehaviour, IEditorPanel
 
     public void Save()
     {
+        var adding = false;
         if (selectedMap == null)
         {
+            adding = true;
+
             int.TryParse(widthField.text, out var width);
             int.TryParse(heightField.text, out var height);
 
@@ -82,7 +90,9 @@ public class Panel_Maps : MonoBehaviour, IEditorPanel
         }
 
         selectedMap.name = nameField.text;
-        Global.game.maps.Add(selectedMap);
+
+        if (adding)
+            Global.game.maps.Add(selectedMap);
 
         selectedMap = null;
 

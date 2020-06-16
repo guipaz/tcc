@@ -24,7 +24,7 @@
         
             entityLayer = new GameMapEntityLayer();
 
-            tileset = GameTileset.tilesetA;
+            tileset = GameTileset.masterTileset;
         }
 
         public bool IsInside(int x, int y)
