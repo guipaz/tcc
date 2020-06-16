@@ -1,4 +1,5 @@
-﻿using Assets.Source;
+﻿using System;
+using Assets.Source;
 using Assets.Source.Game;
 using Assets.Source.Model;
 using UnityEngine;
@@ -17,13 +18,29 @@ public class GameMasterBehaviour : MonoBehaviour
 
         MessagePanel.main.Toggle(false);
 
+        player.GetComponent<SpriteRenderer>().sprite = Global.game.player.sprite;
+
         var startingMap = Global.game.player.startingMap;
         var startingX = Global.game.player.startingX;
         var startingY = Global.game.player.startingY;
 
-
         //TODO set first map and position
         GameState.main.ChangeMap(startingMap, startingX, startingY);
+    }
+
+    public GameObject GetEntityObject(string id)
+    {
+        var entities = GameObject.Find("Entities");
+        foreach (Transform transform in entities.transform)
+        {
+            var obj = transform.gameObject;
+            if (obj.name == id)
+            {
+                return obj;
+            }
+        }
+
+        return null;
     }
 
     public void Update()
@@ -77,6 +94,7 @@ public class GameMasterBehaviour : MonoBehaviour
         foreach (var entity in map.entityLayer.entities)
         {
             var entityObject = Instantiate(entityPrefab, layerObject.transform);
+            entityObject.name = string.IsNullOrEmpty(entity.name) ? "Entity" : entity.name;
             entityObject.transform.localPosition = new Vector3(entity.location.x, entity.location.y, 0);
             entityObject.GetComponent<SpriteRenderer>().sprite = entity.image;
             entityObject.GetComponent<EntityBehaviour>().gameEntity = entity;

@@ -32,16 +32,16 @@ Tasks
 
 - Alterar mapas
 - Selecionar sprite de várias texturas
+- Evento "Mudar imagem de entidade" (nome, imagem)
+- Evento "Mover entidade" (nome, x, y)
 
 ---
 
 - Estados nas entidades
 - Evento "Ativar/desativar Interruptor" (nome, ativar/desativar)
-- Evento "Definir Variável" (nome, valor)
-- Evento "Aumentar/diminuir Variável" (nome, aumentar/diminuir, valor)
-- Evento "Mover entidade" (nome, x, y)
+- Evento "Definir Variável" (nome, operação, valor)
 - Evento "Destruir entidade" (nome)
-- Evento "Mudar imagem de entidade" (nome, imagem)
+- Alterar evento
 - Persistência
 - Menu principal
 - Pensar em mais eventos (consultar RPG Maker pra idéias)

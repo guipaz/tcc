@@ -1,4 +1,5 @@
-﻿using Assets.Source.Model;
+﻿using System.Collections.Generic;
+using Assets.Source.Model;
 using UnityEngine;
 
 namespace Assets.Source.Game
@@ -8,6 +9,8 @@ namespace Assets.Source.Game
         public static GameState main = new GameState();
 
         public GameMap currentGameMap;
+        public Dictionary<string, bool> switches = new Dictionary<string, bool>();
+        public Dictionary<string, int> variables = new Dictionary<string, int>();
 
         // event execution
         public GameEntity currentExecutedEntity;

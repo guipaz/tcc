@@ -268,7 +268,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 245825573364399261}
+      - m_Target: {fileID: 5617802254163619883}
         m_MethodName: OK
         m_Mode: 1
         m_Arguments:
@@ -290,9 +290,9 @@ GameObject:
   - component: {fileID: 3059166514501990354}
   - component: {fileID: 3059166514501990352}
   - component: {fileID: 3059166514501990355}
-  - component: {fileID: 245825573364399261}
+  - component: {fileID: 5617802254163619883}
   m_Layer: 5
-  m_Name: EventPanel_ChangeMap
+  m_Name: EventPanel_MoveEntity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &245825573364399261
+--- !u!114 &5617802254163619883
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -365,10 +365,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3059166514501990349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c27e0b265b134f49b4cd7f1994a3409, type: 3}
+  m_Script: {fileID: 11500000, guid: 4222243f62b8366469a11b6695350fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapNameField: {fileID: 3059166515397428771}
+  entityField: {fileID: 3059166515397428771}
   xField: {fileID: 1997424990691926735}
   yField: {fileID: 7529281536204362150}
 --- !u!1 &3059166514755851106
@@ -524,7 +524,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Nome do mapa
+  m_Text: Nome da entidade
 --- !u!1 &3059166515389439131
 GameObject:
   m_ObjectHideFlags: 0
