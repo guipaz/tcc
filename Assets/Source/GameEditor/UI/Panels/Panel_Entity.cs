@@ -91,7 +91,7 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
 
     public void Close()
     {
-        Global.master.ClosePanel("entity");
+        Global.master.ClosePanel(gameObject);
 
         editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity?.gameEntity?.image ?? Resources.Load<Sprite>("ICO_Feint");
     }

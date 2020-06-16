@@ -16,7 +16,7 @@ public class Panel_SelectImage : MonoBehaviour, IEditorPanel
     public void Confirm()
     {
         OnSelected?.Invoke(selected);
-        Global.master.ClosePanel("selectImage");
+        Global.master.ClosePanel(gameObject);
     }
 
     public void DialogOpened()

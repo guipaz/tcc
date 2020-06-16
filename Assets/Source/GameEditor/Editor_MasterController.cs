@@ -11,6 +11,7 @@ public class Editor_MasterController : MonoBehaviour
     public GameObject EntityPanel;
     public GameObject SelectImagePanel;
     public GameObject SelectEventPanel;
+    public GameObject CharacterPanel;
 
     public void Awake()
     {
@@ -48,6 +49,7 @@ public class Editor_MasterController : MonoBehaviour
         EntityPanel?.SetActive(false);
         SelectImagePanel?.SetActive(false);
         SelectEventPanel?.SetActive(false);
+        CharacterPanel?.SetActive(false);
 
         Global.cursorObject = GameObject.Find("Editor_Cursor");
 
@@ -69,8 +71,6 @@ public class Editor_MasterController : MonoBehaviour
 
     public GameObject OpenPanel(string name)
     {
-        OverlayPanel?.SetActive(true);
-
         GameObject obj = null;
 
         if (name == "maps")
@@ -81,6 +81,15 @@ public class Editor_MasterController : MonoBehaviour
             obj = SelectImagePanel;
         else if (name == "selectEvent")
             obj = SelectEventPanel;
+        else if (name == "character")
+            obj = CharacterPanel;
+
+        return OpenPanel(obj);
+    }
+
+    public GameObject OpenPanel(GameObject obj)
+    {
+        OverlayPanel?.SetActive(true);
 
         obj?.SetActive(true);
         obj?.GetComponent<IEditorPanel>()?.DialogOpened();
@@ -97,19 +106,5 @@ public class Editor_MasterController : MonoBehaviour
         {
             Destroy(obj);
         }
-    }
-
-    public void ClosePanel(string name)
-    {
-        GameObject obj = null;
-
-        if (name == "maps")
-            obj = MapsPanel;
-        else if (name == "entity")
-            obj = EntityPanel;
-        else if (name == "selectImage")
-            obj = SelectImagePanel;
-
-        ClosePanel(obj);
     }
 }

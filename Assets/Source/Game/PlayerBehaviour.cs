@@ -38,7 +38,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             // collision
             var blockedByEntity = false;
-            foreach (var entity in Global.currentMap.entityLayer.entities)
+            foreach (var entity in GameState.main.currentGameMap.entityLayer.entities)
             {
                 if (entity.location == finalPos)
                 {
@@ -55,7 +55,7 @@ public class PlayerBehaviour : MonoBehaviour
                 }
             }
 
-            if (Global.currentMap.IsInside((int)finalPos.x, (int)finalPos.y) && !blockedByEntity && Global.currentMap.constructionLayer.tids[(int)finalPos.x, (int)finalPos.y] == -1)
+            if (GameState.main.currentGameMap.IsInside((int)finalPos.x, (int)finalPos.y) && !blockedByEntity && GameState.main.currentGameMap.constructionLayer.tids[(int)finalPos.x, (int)finalPos.y] == -1)
             {
                 transform.localPosition = new Vector3(finalPos.x, finalPos.y, transform.localPosition.z);
                 CenterCamera();
@@ -64,7 +64,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            foreach (var entity in Global.currentMap.entityLayer.entities)
+            foreach (var entity in GameState.main.currentGameMap.entityLayer.entities)
             {
                 var interactionLocation = new Vector2(transform.localPosition.x + interactionVector.x,
                     transform.localPosition.y + interactionVector.y);

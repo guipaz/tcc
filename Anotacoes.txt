@@ -1,4 +1,19 @@
 
+Artigo
+------
+
+- "Pedagógico": deixar ou tirar?
+
+- Focar no cap. 3
+	- Persistência/leitura e execução
+	- 
+- Diagramas (3)
+- Trechos de código (3)
+- EULER
+- https://furb-my.sharepoint.com/:b:/g/personal/dalton_furb_br/EXIsc68OIZtLpBqb5UQ33O8BVNaIRT6po2VHTxd9JVc7yw?e=cfAzJg
+
+=======
+
 Tasks
 ----
 
@@ -17,17 +32,22 @@ Tasks
 - Executar eventos automáticos ao aparecer no mapa
 - Voltar do Play pro Editor
 - Usar um "GameState" ao invés do Global pra ter o fluxo do jogo
-
 - Mostrar mensagem em tela
+- Mudar nome e sprite do personagem principal e definir onde ele começa
 
-...
-- Estados nas entidades controlados por switches e variáveis
+---
+
+- Estados nas entidades
+- Evento "Ativar/desativar Interruptor"
+- Evento "Definir Variável"
+- Evento "Aumentar/diminuir Variável"
+- Persistência
+- Menu principal
+- Multiplos tilesets
+- Alterar mapas
 - Pensar em mais eventos (consultar RPG Maker pra idéias)
-- Mudar nome e sprite do personagem principal
 - Itens (evento: Adicionar/Remover item)
 - Criar menu com informações do jogador e itens
-- Persistência
-- Remover entityLayer e deixar só a lista de entities
 
 ====================================
 
@@ -89,3 +109,102 @@ Os eventos executam comportamentos dentro do jogo. Os eventos disponíveis são:
 
 Icones: OpenGameArt
 https://opengameart.org/content/tiny-16-basic
+
+========================
+OLD
+=========================
+
+
+24/03
+- Editor em 2D e play em 3D (2 modos)
+- Talvez monotoque (sem multitoque por ora)
+- Um mapa, CRUD de objeto, parametrização básica
+- ECS, trazer coisas do Alchemico, persistência
+
+31/03
+- Trazer pro lado do RPG Maker e seus comportamentos mas com ECS em mente
+- Mudar pra "entidades" pra não confundir com OOP
+- Mensageria
+- Extensão: programação visual
+
+- Mundo
+- Persistencia
+- Edição de objetos/entidades (visuais)
+- Comportamento de objetos/entidades
+	- Individual
+	- Relação com outro objeto (possível extensão)
+
+07/04
+- Sem preocupação com pedagogia ou UI
+- Possível extensão: Nodos (Blender)
+- Criar comportamentos do trabalho do Rodrigo
+
+27/04
+- Baseado em mensagens e eventos
+- Criar estrutura para que eventos executem de acordo com mensagens
+- Substituir "componentes" por "eventos"
+
+---
+
+> Citar ECS
+> Citar mensageria (Brian Bucklew)
+> Citar RPG Maker
+> Citar PixelPerfectCamera (fonte externo)
+> Citar SimpleJSON (fonte externo)
+
+=========================
+
+Trabalhos correlatos
+
+https://pdfs.semanticscholar.org/d262/5d840d05a8972a31403b6d42d0fec54575c7.pdf
+
+Referencias
+
+GRANDO, Anita; TAROUCO, Liane Margarida Rockenbach. O uso de jogos educacionais do tipo RPG na educação. RENOTE-Revista Novas Tecnologias na Educação, v. 6, n. 1, 2008.
+
+ALVES, Lynn et al. Ensino On-Line, jogos eletrônicos e RPG: Construindo novas lógicas. In: Conferência eLES. 2004. p. 49-58.
+
+https://g1.globo.com/educacao/noticia/2020/05/21/estudantes-pais-e-professores-narram-apagao-do-ensino-publico-na-pandemia-em-7-estados-e-no-df-atividade-remota-nao-vai-contar-para-o-ano-letivo.ghtml
+
+https://www.todospelaeducacao.org.br/conteudo/Educacao-na-pandemia-Ensino-a-distancia-da-importante-solucao-emergencial_-mas-resposta-a-altura-exige-plano-para-volta-as-aulas
+
+SALDANHA, Ana Alayde; BATISTA, José Roniere Morais. A concepção do role-playing game (RPG) em jogadores sistemáticos. Psicologia: ciência e profissão, v. 29, n. 4, p. 700-717, 2009.
+
+Modelando Ambientes de Aprendizagem Virtuais utilizando
+Role-Playing Games https://www.teses.usp.br/teses/disponiveis/48/48134/tde-30082010-104541/publico/ARTUR_ALVES_DE_OLIVEIRA_CHAGAS.pdf
+
+Modelando Ambientes de Aprendizagem Virtuais utilizando
+Role-Playing Games http://www.nce.ufrj.br/sbie2003/publicacoes/paper71.pdf
+
+https://geekandsundry.com/role-playing-gamers-have-more-empathy-than-non-gamers/
+
+Pereira, C.K., Andrade, F.M., Freitas, L.E.R. Desafio dos Bandeirantes – Aventuras na Terra de Santa
+Cruz, GSA, 1992.
+
+Crawford, C. The Art of Computer Game Design, Washigton State University, 1982.
+
+The Global Games Market Will Generate $152.1 Billion in 2019 as the U.S. Overtakes China as the Biggest Market https://newzoo.com/insights/articles/the-global-games-market-will-generate-152-1-billion-in-2019-as-the-u-s-overtakes-china-as-the-biggest-market/
+
+The Legend of Zelda Instruction Booklet. Nintendo of America, Inc. p. 28.
+
+GURZYNSKI, Cleber; HOUNSELL, Marcelo; KEMCZINSKI, Avanilde. Análise de um jogo RPG educacional produzido pelo próprio docente, auxiliado por Ferramenta de Autoria. In: Brazilian Symposium on Computers in Education (Simpósio Brasileiro de Informática na Educação-SBIE). 2016. p. 617.
+
+ECS Game Engine Design
+https://digitalcommons.calpoly.edu/cgi/viewcontent.cgi?article=1138&context=cpesp
+
+Overwatch ECS
+https://www.youtube.com/watch?v=W3aieHjyNvw&t=839s
+
+IRDC US 2015 - Brian Bucklew, Data-Driven Engines of Qud and Sproggiwood
+https://www.youtube.com/watch?v=U03XXzcThGU&t=1389s
+
+Postmortem: Thief: The Dark Project
+https://www.gamasutra.com/view/feature/3355/postmortem_thief_the_dark_project.php
+
+A Data-Driven
+Game Object System
+https://www.gamedevs.org/uploads/data-driven-game-object-system.pdf
+
+https://docs.unity3d.com/Manual/Components.html
+
+PESSINI, Adriano; KEMCZINSKI, Avanilde; DA SILVA HOUNSELL, Marcelo. Uma Ferramenta de Autoria para o desenvolvimento de Jogos Sérios do Gênero RPG. Anais do Computer on the Beach, p. 071-080, 2015.

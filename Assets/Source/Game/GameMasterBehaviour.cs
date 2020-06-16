@@ -17,8 +17,13 @@ public class GameMasterBehaviour : MonoBehaviour
 
         MessagePanel.main.Toggle(false);
 
+        var startingMap = Global.game.player.startingMap;
+        var startingX = Global.game.player.startingX;
+        var startingY = Global.game.player.startingY;
+
+
         //TODO set first map and position
-        GameState.main.ChangeMap(Global.game.maps[0].name, 0, 0);
+        GameState.main.ChangeMap(startingMap, startingX, startingY);
     }
 
     public void Update()
