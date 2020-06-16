@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Source.Model
@@ -40,7 +41,7 @@ namespace Assets.Source.Model
 
             data.Set("name", name);
             data.Set("execution", (int)execution);
-            data.Set("sprite", image?.ToJSON());
+            data.Set("image", image?.ToJSON());
             data.Set("passable", passable);
 
             var eventsData = new List<PersistenceData>();
@@ -54,7 +55,29 @@ namespace Assets.Source.Model
 
         public void SetData(PersistenceData data)
         {
-            throw new System.NotImplementedException();
+            name = data.Get("name", name);
+
+            variableCheck = data.Get("variableCheck", variableCheck);
+            variableCheckName = data.Get("variableCheckName", variableCheckName);
+            variableCheckValue = data.Get("variableCheckValue", variableCheckValue);
+
+            switchCheck = data.Get("switchCheck", switchCheck);
+            switchCheckName = data.Get("switchCheckName", switchCheckName);
+            switchCheckValue = data.Get("switchCheckValue", switchCheckValue);
+
+            execution = (EntityExecution)data.Get<int>("execution");
+            image = data.Get("image", image);
+            passable = data.Get("passable", passable);
+
+            var eventsData = data.Get<List<PersistenceData>>("events");
+            foreach (var eventData in eventsData)
+            {
+                var eventType = eventData.Get<string>("event");
+                var type = Type.GetType(eventType);
+                var ev = (GameEvent) Activator.CreateInstance(type);
+                ev.SetData(eventData);
+                events.Add(ev);
+            }
         }
     }
 }

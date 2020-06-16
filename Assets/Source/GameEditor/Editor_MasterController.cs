@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets;
 using Assets.Source.Model;
 using UnityEngine;
@@ -26,6 +27,12 @@ public class Editor_MasterController : MonoBehaviour
         {
             Global.tilesets[sprite.name] = new GameTileset(sprite.name, sprite);
         }
+
+        if (Global.loadGame != null)
+        {
+            Global.game = Persistor.instance.LoadFile<Game>(Persistor.DEFAULT_FOLDER + Global.loadGame).ToList()[0];
+            Global.loadGame = null;
+        }
     }
 
     public void RunGame()
@@ -38,6 +45,8 @@ public class Editor_MasterController : MonoBehaviour
 
     public void Save()
     {
+        CommitCurrentMap();
+
         //TODO
         Persistor.instance.SaveFile<Game>(Persistor.DEFAULT_FOLDER + "save1.json", new [] { Global.game });
     }

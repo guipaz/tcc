@@ -35,6 +35,7 @@ namespace Assets.Source.Events
         {
             var data = new PersistenceData();
 
+            data.Set("event", GetType().FullName);
             data.Set("mapName", mapName);
             data.Set("x", x);
             data.Set("y", y);
@@ -44,7 +45,9 @@ namespace Assets.Source.Events
 
         public override void SetData(PersistenceData data)
         {
-            throw new System.NotImplementedException();
+            mapName = data.Get("mapName", mapName);
+            x = data.Get("x", x);
+            y = data.Get("y", y);
         }
     }
 }

@@ -37,6 +37,7 @@ namespace Assets.Source.Events
         {
             var data = new PersistenceData();
 
+            data.Set("event", GetType().FullName);
             data.Set("id", id);
             data.Set("sprite", sprite?.ToJSON());
 
@@ -45,7 +46,8 @@ namespace Assets.Source.Events
 
         public override void SetData(PersistenceData data)
         {
-            throw new System.NotImplementedException();
+            id = data.Get("id", id);
+            sprite = data.Get("sprite", sprite);
         }
     }
 }

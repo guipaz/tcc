@@ -46,7 +46,19 @@ namespace Assets.Source.Model
 
         public void SetData(PersistenceData data)
         {
-            throw new System.NotImplementedException();
+            name = data.Get("name", name);
+            location = data.Get("location", location);
+
+            var statesData = data.Get<PersistenceData>("states");
+            foreach (var key in statesData.InternalData.Keys)
+            {
+                var stateData = statesData.InternalData[key];
+                var objValue = stateData.ObjectValue;
+
+                var state = new GameEntityState();
+                state.SetData(new PersistenceData(objValue));
+                states[state.name] = state;
+            }
         }
     }
 }

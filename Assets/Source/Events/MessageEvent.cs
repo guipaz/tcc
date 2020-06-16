@@ -36,6 +36,7 @@ namespace Assets.Source.Events
         {
             var data = new PersistenceData();
 
+            data.Set("event", GetType().FullName);
             data.Set("message", message);
 
             return data;
@@ -43,7 +44,7 @@ namespace Assets.Source.Events
 
         public override void SetData(PersistenceData data)
         {
-            throw new System.NotImplementedException();
+            message = data.Get("message", message);
         }
     }
 }

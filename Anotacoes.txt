@@ -8,7 +8,7 @@ Artigo
 	- Cenas: Editor e Game
 	- Organização do código (pastas e funcionalidades)
 	- Diagramas (3)
-		- Persistência (reflexão e models)
+		- Persistência (reflexão e models); GameEntityState:56
 		- Entidades, estados e eventos
 		- Fluxo geral
 	- Trechos de código (3)

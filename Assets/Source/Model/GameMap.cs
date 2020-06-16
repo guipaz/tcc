@@ -39,8 +39,8 @@ namespace Assets.Source.Model
             data.Set("height", height);
 
             data.Set("terrainLayer", terrainLayer.GetData());
-            data.Set("constructionLayer", terrainLayer.GetData());
-            data.Set("aboveLayer", terrainLayer.GetData());
+            data.Set("constructionLayer", constructionLayer.GetData());
+            data.Set("aboveLayer", aboveLayer.GetData());
 
             var entitiesData = new List<PersistenceData>();
             foreach (var entity in entities)
@@ -53,7 +53,19 @@ namespace Assets.Source.Model
 
         public void SetData(PersistenceData data)
         {
-            throw new System.NotImplementedException();
+            name = data.Get("name", name);
+
+            terrainLayer.SetData(data.Get<PersistenceData>("terrainLayer"));
+            constructionLayer.SetData(data.Get<PersistenceData>("constructionLayer"));
+            aboveLayer.SetData(data.Get<PersistenceData>("aboveLayer"));
+
+            var entitiesData = data.Get<List<PersistenceData>>("entities");
+            foreach (var entityData in entitiesData)
+            {
+                var entity = new GameEntity();
+                entity.SetData(entityData);
+                entities.Add(entity);
+            }
         }
     }
 }

@@ -33,17 +33,27 @@ public static class ExtPersistence
     public static string ToJSON(this Sprite sprite)
     {
         return sprite.texture.name + ";" + sprite.rect.x + ";" + sprite.rect.y + ";" + sprite.rect.width + ";" +
-               sprite.rect.height + ";" + sprite.pivot.x + ";" + sprite.pivot.y;
+               sprite.rect.height;
     }
 
     public static Sprite ToSprite(this string str)
     {
         var param = str.Split(';');
-        var texture = Resources.Load<Texture2D>(param[0]); //TODO this won't work
-        var rect = new Rect(int.Parse(param[1]), int.Parse(param[2]), int.Parse(param[3]), int.Parse(param[4]));
-        var pivot = new Vector2(float.Parse(param[5]), float.Parse(param[6]));
 
-        return Sprite.Create(texture, rect, pivot, 16);
+        Texture2D tex = null;
+        foreach (var sprite in Global.master.Tilesets)
+        {
+            if (sprite.name == param[0])
+            {
+                tex = sprite.texture;
+                break;
+            }
+        }
+
+        var rect = new Rect(int.Parse(param[1]), int.Parse(param[2]), int.Parse(param[3]), int.Parse(param[4]));
+        var pivot = new Vector2(0.5f, 0.5f);
+
+        return Sprite.Create(tex, rect, pivot, 16);
     }
 
     //public static string ToJSON(this Rectangle rect)

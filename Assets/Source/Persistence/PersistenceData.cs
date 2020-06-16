@@ -54,6 +54,10 @@ public class PersistenceData
 
             return (T)(object)l;
         }
+        if (typeof(T) == typeof(Sprite))
+            return (T) (object) obj.StringValue.ToSprite();
+        if (typeof(T) == typeof(Vector2))
+            return (T)(object)obj.StringValue.ToVector2();
 
 
         return (T)(object)obj;

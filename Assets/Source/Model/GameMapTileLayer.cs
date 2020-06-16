@@ -32,14 +32,19 @@ namespace Assets.Source.Model
                 for (var x = 0; x < width; x++)
                     linearTids[i++] = tids[x, y];
             
-            data.Set("tids", string.Join(",", linearTids.Select(x => x.ToString()).ToArray()));
+            data.Set("tids", string.Join(";", linearTids.Select(x => x.ToString()).ToArray()));
 
             return data;
         }
 
         public void SetData(PersistenceData data)
         {
-            throw new System.NotImplementedException();
+            var linearTidsStr = data.Get<string>("tids");
+            var linearTids = linearTidsStr.Split(';').Select(int.Parse).ToArray();
+
+            for (var y = 0; y < height; y++)
+                for (var x = 0; x < width; x++)
+                    tids[x, y] = linearTids[y * width + x];
         }
     }
 }

@@ -22,7 +22,10 @@ namespace Assets.Source.Model
 
         public void SetData(PersistenceData data)
         {
-            throw new System.NotImplementedException();
+            sprite = data.Get("sprite", sprite);
+            startingMap = data.Get("startingMap", startingMap);
+            startingX = data.Get("startingX", startingX);
+            startingY = data.Get("startingY", startingY);
         }
     }
 }
