@@ -37,6 +37,7 @@ Tasks
 - Estados nas entidades
 - Evento "Ativar/desativar Interruptor" (nome, ativar/desativar)
 - Evento "Definir Variável" (nome, operação, valor)
+- Menu principal
 
 ---
 
@@ -44,7 +45,6 @@ Essencial
 
 - Persistência
 - Pathfinding
-- Menu principal
 - Alterar evento
 - Organizar código
 
