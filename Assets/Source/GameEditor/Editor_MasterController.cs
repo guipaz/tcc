@@ -13,6 +13,7 @@ public class Editor_MasterController : MonoBehaviour
     public GameObject SelectImagePanel;
     public GameObject SelectEventPanel;
     public GameObject CharacterPanel;
+    public GameObject StatesPanel;
     public Sprite[] Tilesets;
 
     public void Awake()
@@ -58,6 +59,7 @@ public class Editor_MasterController : MonoBehaviour
         SelectImagePanel?.SetActive(false);
         SelectEventPanel?.SetActive(false);
         CharacterPanel?.SetActive(false);
+        StatesPanel?.SetActive(false);
 
         Global.cursorObject = GameObject.Find("Editor_Cursor");
 
@@ -91,6 +93,8 @@ public class Editor_MasterController : MonoBehaviour
             obj = SelectEventPanel;
         else if (name == "character")
             obj = CharacterPanel;
+        else if (name == "states")
+            obj = StatesPanel;
 
         return OpenPanel(obj);
     }
@@ -98,9 +102,17 @@ public class Editor_MasterController : MonoBehaviour
     public GameObject OpenPanel(GameObject obj)
     {
         OverlayPanel?.SetActive(true);
+        
+        var parent = OverlayPanel?.transform?.parent;
+        OverlayPanel?.transform?.SetParent(null);
+        OverlayPanel?.transform?.SetParent(parent);
 
         obj?.SetActive(true);
         obj?.GetComponent<IEditorPanel>()?.DialogOpened();
+
+        parent = obj?.transform.parent;
+        obj?.transform?.SetParent(null);
+        obj?.transform?.SetParent(parent);
 
         return obj;
     }

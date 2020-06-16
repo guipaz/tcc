@@ -50,6 +50,9 @@ namespace Assets.Source.Events
                     break;
             }
 
+            // revalidates entities
+            GameMasterBehaviour.main.InstantiateEntities(GameState.main.currentGameMap);
+
             finishedExecution = true;
         }
 

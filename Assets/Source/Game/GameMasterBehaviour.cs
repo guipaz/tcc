@@ -1,9 +1,8 @@
-﻿using System;
-using Assets.Source;
-using Assets.Source.Game;
+﻿using Assets.Source;
 using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using GameState = Assets.Source.Game.GameState;
 
 public class GameMasterBehaviour : MonoBehaviour
 {
@@ -12,9 +11,13 @@ public class GameMasterBehaviour : MonoBehaviour
     public PlayerBehaviour player;
     public GameObject entityPrefab;
 
+    GameObject entitiesLayer;
+
     void Start()
     {
         main = this;
+
+        GameState.main.Clear();
 
         MessagePanel.main.Toggle(false);
 
@@ -53,10 +56,10 @@ public class GameMasterBehaviour : MonoBehaviour
 
         if (GameState.main.currentExecutedEntity != null)
         {
-            if (GameState.main.currentExecutedEntity.events.Count > GameState.main.currentExecutedEventIndex)
+            if (GameState.main.currentExecutedEntity.currentState.events.Count > GameState.main.currentExecutedEventIndex)
             {
                 var currentEvent =
-                    GameState.main.currentExecutedEntity.events[GameState.main.currentExecutedEventIndex];
+                    GameState.main.currentExecutedEntity.currentState.events[GameState.main.currentExecutedEventIndex];
 
                 if (!currentEvent.startedExecution)
                 {
@@ -89,15 +92,72 @@ public class GameMasterBehaviour : MonoBehaviour
         InstantiateLayer(mapObject, map, Layers.Construction, map.constructionLayer, 1);
         InstantiateLayer(mapObject, map, Layers.Above, map.aboveLayer, -1);
 
-        var layerObject = new GameObject(Layers.Entities.ToString());
-        layerObject.transform.parent = mapObject.transform;
+        entitiesLayer = new GameObject(Layers.Entities.ToString());
+        entitiesLayer.transform.parent = mapObject.transform;
+
+        InstantiateEntities(map);
+    }
+
+    public void InstantiateEntities(GameMap map)
+    {
+        foreach (Transform child in entitiesLayer.transform)
+            Destroy(child.gameObject);
+
+        GameState.main.currentEntityBehaviours.Clear();
+
         foreach (var entity in map.entityLayer.entities)
         {
-            var entityObject = Instantiate(entityPrefab, layerObject.transform);
+            var entityObject = Instantiate(entityPrefab, entitiesLayer.transform);
             entityObject.name = string.IsNullOrEmpty(entity.name) ? "Entity" : entity.name;
             entityObject.transform.localPosition = new Vector3(entity.location.x, entity.location.y, 0);
-            entityObject.GetComponent<SpriteRenderer>().sprite = entity.image;
-            entityObject.GetComponent<EntityBehaviour>().gameEntity = entity;
+
+            var entityBehaviour = entityObject.GetComponent<EntityBehaviour>();
+            entityBehaviour.gameEntity = entity;
+
+            ProcessState(entityBehaviour);
+
+            entityObject.GetComponent<SpriteRenderer>().sprite = entityBehaviour.currentState.image;
+
+            GameState.main.currentEntityBehaviours.Add(entityBehaviour);
+        }
+    }
+
+    void ProcessState(EntityBehaviour entityBehaviour)
+    {
+        foreach (var key in entityBehaviour.gameEntity.states.Keys)
+        {
+            var state = entityBehaviour.gameEntity.states[key];
+
+            // sets the default first that won't have any conditions
+            if (key == GameEntityState.DEFAULT_STATE_NAME)
+            {
+                entityBehaviour.currentState = state;
+                continue;
+            }
+
+            // checks switch first
+            if (state.switchCheck)
+            {
+                // didn't pass, go to the next
+                if (!GameState.main.switches.ContainsKey(state.switchCheckName) || GameState.main.switches[state.switchCheckName] != state.switchCheckValue)
+                {
+                    continue;
+                }
+            }
+
+            // checks variable
+            if (state.variableCheck)
+            {
+                // didn't pass, go to the next
+                if (!GameState.main.variables.ContainsKey(state.variableCheckName) || GameState.main.variables[state.variableCheckName] != state.variableCheckValue)
+                {
+                    continue;
+                }
+            }
+
+            // all passed, this is the current state
+            entityBehaviour.currentState = state;
+            break;
         }
     }
 

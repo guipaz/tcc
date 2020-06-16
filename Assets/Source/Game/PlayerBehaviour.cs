@@ -19,7 +19,7 @@ public class PlayerBehaviour : MonoBehaviour
         mov.x = 0;
         mov.y = 0;
 
-        GameEntity interactionEntity = null;
+        EntityBehaviour interactionEntity = null;
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
             mov.x = 1;
@@ -38,11 +38,11 @@ public class PlayerBehaviour : MonoBehaviour
 
             // collision
             var blockedByEntity = false;
-            foreach (var entity in GameState.main.currentGameMap.entityLayer.entities)
+            foreach (var entity in GameState.main.currentEntityBehaviours)
             {
-                if (entity.location == finalPos)
+                if (entity.gameEntity.location == finalPos)
                 {
-                    if (entity.passable && entity.execution == EntityExecution.Contact)
+                    if (entity.currentState.passable && entity.currentState.execution == EntityExecution.Contact)
                     {
                         interactionEntity = entity;
                     }
@@ -64,12 +64,12 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            foreach (var entity in GameState.main.currentGameMap.entityLayer.entities)
+            foreach (var entity in GameState.main.currentEntityBehaviours)
             {
                 var interactionLocation = new Vector2(transform.localPosition.x + interactionVector.x,
                     transform.localPosition.y + interactionVector.y);
 
-                if (entity.location == interactionLocation && entity.execution == EntityExecution.Interaction)
+                if (entity.gameEntity.location == interactionLocation && entity.currentState.execution == EntityExecution.Interaction)
                 {
                     interactionEntity = entity;
                     break;

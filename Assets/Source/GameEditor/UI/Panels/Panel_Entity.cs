@@ -1,6 +1,5 @@
 ﻿using System;
 using Assets;
-using Assets.Source;
 using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,14 +8,29 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
 {
     EditorEntity editorEntity;
 
+    public GameEntityState currentState;
+
     public Image image;
     public InputField nameField;
     public Dropdown executionDropdown;
     public Toggle passableToggle;
     public GameObject eventContent;
     public GameObject eventInfoPrefab;
+    public Sprite noimageSprite;
+    public Text stateName;
 
     Sprite selectedSprite;
+
+    public void OpenStates()
+    {
+        var statesPanel = Global.master.OpenPanel("states");
+        statesPanel.GetComponent<Panel_States>().OnSelectState = state =>
+        {
+            ClearFields();
+            SetState(state);
+        };
+        statesPanel.GetComponent<Panel_States>().SetData(editorEntity.gameEntity);
+    }
 
     public void SelectImage()
     {
@@ -32,8 +46,8 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
     {
         var panel = Global.master.OpenPanel("selectEvent");
         panel.GetComponent<Panel_SelectEvent>().OnSelected = ev =>
-        { 
-            editorEntity.gameEntity.events.Add(ev);
+        {
+            currentState.events.Add(ev);
             AddEventToScreen(ev);
         };
     }
@@ -45,43 +59,57 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
         eventInfo.GetComponent<EventInfo>().OnDelete = () =>
         {
             Destroy(eventInfo);
-            editorEntity.gameEntity.events.Remove(ev);
+            currentState.events.Remove(ev);
         };
     }
 
     public void SetData(EditorEntity editorEntity)
     {
         this.editorEntity = editorEntity;
+        if (editorEntity == null)
+        {
+            return;
+        }
 
-        nameField.text = editorEntity?.gameEntity?.name ?? "";
-        executionDropdown.value = (int?)editorEntity?.gameEntity?.execution ?? 0;
+        SetState(editorEntity.gameEntity.states[GameEntityState.DEFAULT_STATE_NAME]);
+    }
 
-        selectedSprite = editorEntity?.gameEntity?.image;
+    void SetState(GameEntityState state)
+    {
+        currentState = state;
+
+        stateName.text = state.name;
+
+        nameField.text = editorEntity.gameEntity.name ?? "";
+        executionDropdown.value = (int?)currentState.execution ?? 0;
+
+        selectedSprite = currentState.image;
 
         image.sprite = selectedSprite ?? image.sprite;
-        passableToggle.isOn = editorEntity?.gameEntity?.passable ?? false;
+        passableToggle.isOn = currentState.passable;
 
-        if (editorEntity?.gameEntity?.events != null)
-            foreach (var ev in editorEntity.gameEntity.events)
+        if (currentState.events != null)
+            foreach (var ev in currentState.events)
                 AddEventToScreen(ev);
     }
 
     public void Save()
     {
         editorEntity.gameEntity.name = nameField.text;
-        Enum.TryParse(executionDropdown.value.ToString(), out editorEntity.gameEntity.execution);
-        editorEntity.gameEntity.image = selectedSprite;
-        editorEntity.gameEntity.passable = passableToggle.isOn;
-
-        // events are already inside it
-
-        Close();
+        Enum.TryParse(executionDropdown.value.ToString(), out currentState.execution);
+        currentState.image = selectedSprite;
+        currentState.passable = passableToggle.isOn;
     }
 
     public void DialogOpened()
     {
+        ClearFields();
+    }
+
+    void ClearFields()
+    {
         nameField.text = "";
-        image.sprite = Resources.Load<Sprite>("noimage");
+        image.sprite = noimageSprite;
         selectedSprite = null;
         passableToggle.isOn = false;
 
@@ -93,7 +121,7 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
     {
         Global.master.ClosePanel(gameObject);
 
-        editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity?.gameEntity?.image ?? Resources.Load<Sprite>("ICO_Feint");
+        editorEntity.GetComponent<SpriteRenderer>().sprite = currentState.image ?? Resources.Load<Sprite>("ICO_Feint");
     }
 
     public void Delete()

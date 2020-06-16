@@ -34,13 +34,12 @@ Tasks
 - Selecionar sprite de várias texturas
 - Evento "Mudar imagem de entidade" (nome, imagem)
 - Evento "Mover entidade" (nome, x, y)
+- Estados nas entidades
 
 ---
 
-- Estados nas entidades
 - Evento "Ativar/desativar Interruptor" (nome, ativar/desativar)
 - Evento "Definir Variável" (nome, operação, valor)
-- Evento "Destruir entidade" (nome)
 - Alterar evento
 - Persistência
 - Menu principal

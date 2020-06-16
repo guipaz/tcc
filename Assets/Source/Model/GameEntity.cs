@@ -13,15 +13,16 @@ namespace Assets.Source.Model
     public class GameEntity
     {
         public string name;
-        public EntityExecution execution;
-        public Sprite image;
-        public List<GameEvent> events;
         public Vector2 location;
-        public bool passable = false;
+        public Dictionary<string, GameEntityState> states;
 
         public GameEntity()
         {
-            events = new List<GameEvent>();
+            states = new Dictionary<string, GameEntityState>
+            {
+                [GameEntityState.DEFAULT_STATE_NAME] =
+                    new GameEntityState {name = GameEntityState.DEFAULT_STATE_NAME}
+            };
         }
     }
 }

@@ -10,6 +10,8 @@ public class Panel_SelectEvent : MonoBehaviour, IEditorPanel
     public GameObject changeMapPrefab;
     public GameObject changeSpritePrefab;
     public GameObject moveEntityPrefab;
+    public GameObject changeSwitchPrefab;
+    public GameObject changeVariablePrefabb;
 
     public Action<GameEvent> OnSelected;
 
@@ -25,6 +27,10 @@ public class Panel_SelectEvent : MonoBehaviour, IEditorPanel
             prefab = changeSpritePrefab;
         else if (eventType == "moveEntity")
             prefab = moveEntityPrefab;
+        else if (eventType == "changeSwitch")
+            prefab = changeSwitchPrefab;
+        else if (eventType == "changeVariable")
+            prefab = changeVariablePrefabb;
 
         if (prefab != null)
         {

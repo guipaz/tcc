@@ -7,7 +7,7 @@ namespace Assets.Source.Events
     public class ChangeSwitchEvent : GameEvent
     {
         public string id;
-        public bool flag;
+        public bool value;
 
         public override string GetNameText()
         {
@@ -16,12 +16,15 @@ namespace Assets.Source.Events
 
         public override string GetDescriptionText()
         {
-            return id + " - {" + flag + "}";
+            return id + " - {" + value + "}";
         }
 
         public override void Execute()
         {
-            GameState.main.switches[id] = flag;
+            GameState.main.switches[id] = value;
+
+            // revalidates entities
+            GameMasterBehaviour.main.InstantiateEntities(GameState.main.currentGameMap);
 
             finishedExecution = true;
         }
