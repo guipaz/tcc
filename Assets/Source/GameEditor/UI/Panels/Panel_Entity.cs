@@ -121,7 +121,7 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
     {
         Global.master.ClosePanel(gameObject);
 
-        editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity.gameEntity.states[GameEntityState.DEFAULT_STATE_NAME].image ?? Resources.Load<Sprite>("ICO_Feint");
+        editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity.gameEntity.states[GameEntityState.DEFAULT_STATE_NAME].image ?? Resources.Load<Sprite>("icon_entity");
     }
 
     public void Delete()

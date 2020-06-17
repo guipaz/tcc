@@ -53,7 +53,7 @@ public class Editor_MapController : MonoBehaviour
 
             var editorEntity = entity.GetComponent<EditorEntity>();
             editorEntity.gameEntity = gameEntity;
-            editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity?.gameEntity?.states[GameEntityState.DEFAULT_STATE_NAME].image ?? Resources.Load<Sprite>("ICO_Feint");
+            editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity?.gameEntity?.states[GameEntityState.DEFAULT_STATE_NAME].image ?? Resources.Load<Sprite>("icon_entity");
         }
 
         // camera position

@@ -9,7 +9,8 @@ namespace Assets.Source.Events
         public string id;
         public int x;
         public int y;
-        bool immediate = true;
+        public bool relative = false;
+        public bool immediate = true;
 
         public override string GetNameText()
         {
@@ -29,10 +30,25 @@ namespace Assets.Source.Events
             {
                 if (immediate)
                 {
-                    var newY = GameState.main.currentGameMap.height - y - 1;
-                    obj.GetComponent<EntityBehaviour>().gameEntity.location = new Vector2(x, newY);
-                    obj.GetComponent<Transform>().localPosition = new Vector3(x, newY,
+                    var currentLocation = obj.GetComponent<EntityBehaviour>().location;
+                    if (relative)
+                    {
+                        currentLocation.x += x;
+                        currentLocation.y -= y;
+                    }
+                    else
+                    {
+                        var newY = GameState.main.currentGameMap.height - y - 1;
+                        currentLocation = new Vector2(x, newY);
+                    }
+
+                    obj.GetComponent<EntityBehaviour>().location = currentLocation;
+                    obj.GetComponent<Transform>().localPosition = new Vector3(currentLocation.x, currentLocation.y,
                         GameMasterBehaviour.main.player.transform.localPosition.z);
+
+                    var player = obj.GetComponent<PlayerBehaviour>();
+                    if (player != null)
+                        player.CenterCamera();
                 }
                 else
                 {
@@ -56,6 +72,7 @@ namespace Assets.Source.Events
             data.Set("x", x);
             data.Set("y", y);
             data.Set("immediate", immediate);
+            data.Set("relative", relative);
 
             return data;
         }
@@ -63,9 +80,10 @@ namespace Assets.Source.Events
         public override void SetData(PersistenceData data)
         {
             id = data.Get("id", id);
-            x = data.Get("id", x);
-            y = data.Get("id", y);
-            immediate = data.Get("id", immediate);
+            x = data.Get("x", x);
+            y = data.Get("y", y);
+            immediate = data.Get("immediate", immediate);
+            relative = data.Get("relative", relative);
         }
     }
 }

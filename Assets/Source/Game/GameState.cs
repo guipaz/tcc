@@ -48,6 +48,7 @@ namespace Assets.Source.Game
             currentEntityBehaviours.Clear();
 
             GameMasterBehaviour.main.InstantiateMap(currentGameMap);
+            GameMasterBehaviour.main.player.GetComponent<EntityBehaviour>().gameEntity.location = new Vector2(x, y);
             GameMasterBehaviour.main.player.transform.localPosition = new Vector3(x, currentGameMap.height - y - 1, GameMasterBehaviour.main.player.transform.localPosition.z);
             GameMasterBehaviour.main.player.CenterCamera();
 

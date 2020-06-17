@@ -21,6 +21,8 @@ public class GameMasterBehaviour : MonoBehaviour
 
         MessagePanel.main.Toggle(false);
 
+        var playerEntity = new GameEntity();
+        player.GetComponent<EntityBehaviour>().gameEntity = playerEntity;
         player.GetComponent<SpriteRenderer>().sprite = Global.game.player.sprite;
 
         var startingMap = Global.game.player.startingMap;
@@ -33,6 +35,9 @@ public class GameMasterBehaviour : MonoBehaviour
 
     public GameObject GetEntityObject(string id)
     {
+        if (id == PlayerBehaviour.PLAYER_ID)
+            return player.gameObject;
+
         var entities = GameObject.Find("Entities");
         foreach (Transform transform in entities.transform)
         {
@@ -103,20 +108,34 @@ public class GameMasterBehaviour : MonoBehaviour
         foreach (Transform child in entitiesLayer.transform)
             Destroy(child.gameObject);
 
-        GameState.main.currentEntityBehaviours.Clear();
-
         foreach (var entity in map.entities)
         {
             var entityObject = Instantiate(entityPrefab, entitiesLayer.transform);
             entityObject.name = string.IsNullOrEmpty(entity.name) ? "Entity" : entity.name;
-            entityObject.transform.localPosition = new Vector3(entity.location.x, entity.location.y, 0);
-
+            
             var entityBehaviour = entityObject.GetComponent<EntityBehaviour>();
-            entityBehaviour.gameEntity = entity;
+
+            EntityBehaviour currentBehaviour = null;
+            foreach (var behaviour in GameState.main.currentEntityBehaviours)
+            {
+                if (behaviour.gameEntity == entity)
+                {
+                    currentBehaviour = behaviour;
+                    break;
+                }
+            }
+
+            entityBehaviour.gameEntity = currentBehaviour?.gameEntity ?? entity;
+            entityBehaviour.location = currentBehaviour?.location ?? entity.location;
+
+            entityObject.transform.localPosition = new Vector3(entityBehaviour.location.x, entityBehaviour.location.y, 0);
 
             ProcessState(entityBehaviour);
 
             entityObject.GetComponent<SpriteRenderer>().sprite = entityBehaviour.currentState.image;
+
+            if (currentBehaviour != null)
+                GameState.main.currentEntityBehaviours.Remove(currentBehaviour); 
 
             GameState.main.currentEntityBehaviours.Add(entityBehaviour);
         }
@@ -180,6 +199,7 @@ public class GameMasterBehaviour : MonoBehaviour
 
                     var spriteRenderer = obj.AddComponent<SpriteRenderer>();
                     spriteRenderer.sprite = GameTileset.masterTileset.tiles[tid];
+                    spriteRenderer.sortingOrder = layerType == Layers.Above ? 1 : 0;
                 }
             }
         }

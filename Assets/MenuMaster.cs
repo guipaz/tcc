@@ -13,6 +13,9 @@ public class MenuMaster : MonoBehaviour
     public void LoadProject()
     {
         //TODO call windows file opener
+
+
+
         Global.loadGame = "save1.json";
         SceneManager.LoadScene("EditorScene");
     }

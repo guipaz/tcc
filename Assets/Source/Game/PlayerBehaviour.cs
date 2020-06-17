@@ -7,6 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
     Vector2 mov;
 
     public Vector2 interactionVector;
+    public const string PLAYER_ID = "Jogador";
 
     void Update()
     {
@@ -40,7 +41,7 @@ public class PlayerBehaviour : MonoBehaviour
             var blockedByEntity = false;
             foreach (var entity in GameState.main.currentEntityBehaviours)
             {
-                if (entity.gameEntity.location == finalPos)
+                if (entity.location == finalPos)
                 {
                     if (entity.currentState.passable && entity.currentState.execution == EntityExecution.Contact)
                     {
@@ -48,7 +49,7 @@ public class PlayerBehaviour : MonoBehaviour
                     }
                     else
                     {
-                        blockedByEntity = true;
+                        blockedByEntity = !entity.currentState.passable;
                     }
                     
                     break;
@@ -58,6 +59,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (GameState.main.currentGameMap.IsInside((int)finalPos.x, (int)finalPos.y) && !blockedByEntity && GameState.main.currentGameMap.constructionLayer.tids[(int)finalPos.x, (int)finalPos.y] == -1)
             {
                 transform.localPosition = new Vector3(finalPos.x, finalPos.y, transform.localPosition.z);
+                GetComponent<EntityBehaviour>().location = new Vector2(finalPos.x, finalPos.y);
                 CenterCamera();
             }
         }
@@ -69,7 +71,7 @@ public class PlayerBehaviour : MonoBehaviour
                 var interactionLocation = new Vector2(transform.localPosition.x + interactionVector.x,
                     transform.localPosition.y + interactionVector.y);
 
-                if (entity.gameEntity.location == interactionLocation && entity.currentState.execution == EntityExecution.Interaction)
+                if (entity.location == interactionLocation && entity.currentState.execution == EntityExecution.Interaction)
                 {
                     interactionEntity = entity;
                     break;

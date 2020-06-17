@@ -9,6 +9,7 @@ public class EventPanel_MoveEntity : MonoBehaviour, IEventParameterPanel
     public InputField entityField;
     public InputField xField;
     public InputField yField;
+    public Dropdown relativeField;
 
     Action<GameEvent> action;
 
@@ -16,7 +17,8 @@ public class EventPanel_MoveEntity : MonoBehaviour, IEventParameterPanel
     {
         var ev = new MoveEntityEvent
         {
-            id = entityField.text
+            id = entityField.text,
+            relative = relativeField.value == 0
         };
         int.TryParse(xField.text, out ev.x);
         int.TryParse(yField.text, out ev.y);

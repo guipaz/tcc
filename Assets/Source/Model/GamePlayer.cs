@@ -2,12 +2,13 @@
 
 namespace Assets.Source.Model
 {
-    public class GamePlayer : IPersistent
+    public class GamePlayer : GameEntity, IPersistent
     {
         public Sprite sprite;
         public string startingMap;
         public int startingX;
         public int startingY;
+
         public PersistenceData GetData()
         {
             var data = new PersistenceData();

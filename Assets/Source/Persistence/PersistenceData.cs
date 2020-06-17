@@ -39,7 +39,7 @@ public class PersistenceData
         if (typeof(T) == typeof(string))
             return (T) (object) obj.StringValue;
         if (typeof(T) == typeof(int))
-            return (T)(object)obj.IntValue;
+            return (T)(object)int.Parse(obj.StringValue);
         if (typeof(T) == typeof(bool))
             return (T)(object)obj.BooleanValue;
         if (typeof(T) == typeof(PersistenceData))
@@ -72,7 +72,7 @@ public class PersistenceData
         if (typeof(T) == typeof(string) || typeof(T) == typeof(String))
             jobject = JObject.CreateString((string)(object)obj);
         if (typeof(T) == typeof(int))
-            jobject = JObject.CreateInteger((int)(object)obj);
+            jobject = JObject.CreateString(obj.ToString()); //JObject.CreateInteger((int)(object)obj);
         if (typeof(T) == typeof(bool))
             jobject = JObject.CreateBoolean((bool)(object)obj);
         if (typeof(T) == typeof(PersistenceData))
