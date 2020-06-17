@@ -1,4 +1,5 @@
-﻿using Assets.Source.Model;
+﻿using System.Collections.Generic;
+using Assets.Source.Model;
 using UnityEngine;
 
 namespace Assets.Source.Game
@@ -8,17 +9,20 @@ namespace Assets.Source.Game
         public static GameState main = new GameState();
 
         public GameMap currentGameMap;
+        public List<EntityBehaviour> currentEntityBehaviours = new List<EntityBehaviour>();
+        public Dictionary<string, bool> switches = new Dictionary<string, bool>();
+        public Dictionary<string, int> variables = new Dictionary<string, int>();
 
         // event execution
-        public GameEntity currentExecutedEntity;
+        public EntityBehaviour currentExecutedEntity;
         public int currentExecutedEventIndex;
 
-        public void ExecuteEntity(GameEntity interactionEntity)
+        public void ExecuteEntity(EntityBehaviour entity)
         {
-            currentExecutedEntity = interactionEntity;
+            currentExecutedEntity = entity;
             currentExecutedEventIndex = 0;
 
-            foreach (var ev in currentExecutedEntity.events)
+            foreach (var ev in currentExecutedEntity.currentState.events)
             {
                 ev.startedExecution = false;
                 ev.finishedExecution = false;
@@ -41,19 +45,32 @@ namespace Assets.Source.Game
                 return;
 
             currentGameMap = curr;
+            currentEntityBehaviours.Clear();
 
             GameMasterBehaviour.main.InstantiateMap(currentGameMap);
+            GameMasterBehaviour.main.player.GetComponent<EntityBehaviour>().gameEntity.location = new Vector2(x, y);
             GameMasterBehaviour.main.player.transform.localPosition = new Vector3(x, currentGameMap.height - y - 1, GameMasterBehaviour.main.player.transform.localPosition.z);
             GameMasterBehaviour.main.player.CenterCamera();
 
-            foreach (var e in currentGameMap.entityLayer.entities)
+            foreach (var e in currentEntityBehaviours)
             {
-                if (e.execution == EntityExecution.Automatic)
+                if (e.currentState.execution == EntityExecution.Automatic)
                 {
                     ExecuteEntity(e);
                     break;
                 }
             }
+        }
+
+        public void Clear()
+        {
+            switches.Clear();
+            variables.Clear();
+            currentEntityBehaviours.Clear();
+
+            currentGameMap = null;
+            currentExecutedEntity = null;
+            currentExecutedEventIndex = 0;
         }
     }
 }

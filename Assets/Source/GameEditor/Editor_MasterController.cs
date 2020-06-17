@@ -1,4 +1,6 @@
-﻿using Assets;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets;
 using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,10 +13,26 @@ public class Editor_MasterController : MonoBehaviour
     public GameObject EntityPanel;
     public GameObject SelectImagePanel;
     public GameObject SelectEventPanel;
+    public GameObject CharacterPanel;
+    public GameObject StatesPanel;
+    public Sprite[] Tilesets;
 
     public void Awake()
     {
         Global.master = this;
+
+        // slices the tilesets for use later
+        Global.tilesets = new Dictionary<string, GameTileset>();
+        foreach (var sprite in Tilesets)
+        {
+            Global.tilesets[sprite.name] = new GameTileset(sprite.name, sprite);
+        }
+
+        if (Global.loadGame != null)
+        {
+            Global.game = Persistor.instance.LoadFile<Game>(Persistor.DEFAULT_FOLDER + Global.loadGame).ToList()[0];
+            Global.loadGame = null;
+        }
     }
 
     public void RunGame()
@@ -23,6 +41,19 @@ public class Editor_MasterController : MonoBehaviour
 
         // change scene
         SceneManager.LoadScene("PlayScene");
+    }
+
+    public void Save()
+    {
+        CommitCurrentMap();
+
+        //TODO
+        Persistor.instance.SaveFile<Game>(Persistor.DEFAULT_FOLDER + "save1.json", new [] { Global.game });
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene("MenuScene");
     }
 
     public void CommitCurrentMap()
@@ -48,6 +79,8 @@ public class Editor_MasterController : MonoBehaviour
         EntityPanel?.SetActive(false);
         SelectImagePanel?.SetActive(false);
         SelectEventPanel?.SetActive(false);
+        CharacterPanel?.SetActive(false);
+        StatesPanel?.SetActive(false);
 
         Global.cursorObject = GameObject.Find("Editor_Cursor");
 
@@ -69,8 +102,6 @@ public class Editor_MasterController : MonoBehaviour
 
     public GameObject OpenPanel(string name)
     {
-        OverlayPanel?.SetActive(true);
-
         GameObject obj = null;
 
         if (name == "maps")
@@ -81,9 +112,28 @@ public class Editor_MasterController : MonoBehaviour
             obj = SelectImagePanel;
         else if (name == "selectEvent")
             obj = SelectEventPanel;
+        else if (name == "character")
+            obj = CharacterPanel;
+        else if (name == "states")
+            obj = StatesPanel;
+
+        return OpenPanel(obj);
+    }
+
+    public GameObject OpenPanel(GameObject obj)
+    {
+        OverlayPanel?.SetActive(true);
+        
+        var parent = OverlayPanel?.transform?.parent;
+        OverlayPanel?.transform?.SetParent(null);
+        OverlayPanel?.transform?.SetParent(parent);
 
         obj?.SetActive(true);
         obj?.GetComponent<IEditorPanel>()?.DialogOpened();
+
+        parent = obj?.transform.parent;
+        obj?.transform?.SetParent(null);
+        obj?.transform?.SetParent(parent);
 
         return obj;
     }
@@ -97,19 +147,5 @@ public class Editor_MasterController : MonoBehaviour
         {
             Destroy(obj);
         }
-    }
-
-    public void ClosePanel(string name)
-    {
-        GameObject obj = null;
-
-        if (name == "maps")
-            obj = MapsPanel;
-        else if (name == "entity")
-            obj = EntityPanel;
-        else if (name == "selectImage")
-            obj = SelectImagePanel;
-
-        ClosePanel(obj);
     }
 }

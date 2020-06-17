@@ -1,8 +1,8 @@
 ﻿using Assets.Source;
-using Assets.Source.Game;
 using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using GameState = Assets.Source.Game.GameState;
 
 public class GameMasterBehaviour : MonoBehaviour
 {
@@ -11,14 +11,44 @@ public class GameMasterBehaviour : MonoBehaviour
     public PlayerBehaviour player;
     public GameObject entityPrefab;
 
+    GameObject entitiesLayer;
+
     void Start()
     {
         main = this;
 
+        GameState.main.Clear();
+
         MessagePanel.main.Toggle(false);
 
+        var playerEntity = new GameEntity();
+        player.GetComponent<EntityBehaviour>().gameEntity = playerEntity;
+        player.GetComponent<SpriteRenderer>().sprite = Global.game.player.sprite;
+
+        var startingMap = Global.game.player.startingMap;
+        var startingX = Global.game.player.startingX;
+        var startingY = Global.game.player.startingY;
+
         //TODO set first map and position
-        GameState.main.ChangeMap(Global.game.maps[0].name, 0, 0);
+        GameState.main.ChangeMap(startingMap, startingX, startingY);
+    }
+
+    public GameObject GetEntityObject(string id)
+    {
+        if (id == PlayerBehaviour.PLAYER_ID)
+            return player.gameObject;
+
+        var entities = GameObject.Find("Entities");
+        foreach (Transform transform in entities.transform)
+        {
+            var obj = transform.gameObject;
+            if (obj.name == id)
+            {
+                return obj;
+            }
+        }
+
+        return null;
     }
 
     public void Update()
@@ -31,10 +61,10 @@ public class GameMasterBehaviour : MonoBehaviour
 
         if (GameState.main.currentExecutedEntity != null)
         {
-            if (GameState.main.currentExecutedEntity.events.Count > GameState.main.currentExecutedEventIndex)
+            if (GameState.main.currentExecutedEntity.currentState.events.Count > GameState.main.currentExecutedEventIndex)
             {
                 var currentEvent =
-                    GameState.main.currentExecutedEntity.events[GameState.main.currentExecutedEventIndex];
+                    GameState.main.currentExecutedEntity.currentState.events[GameState.main.currentExecutedEventIndex];
 
                 if (!currentEvent.startedExecution)
                 {
@@ -67,14 +97,86 @@ public class GameMasterBehaviour : MonoBehaviour
         InstantiateLayer(mapObject, map, Layers.Construction, map.constructionLayer, 1);
         InstantiateLayer(mapObject, map, Layers.Above, map.aboveLayer, -1);
 
-        var layerObject = new GameObject(Layers.Entities.ToString());
-        layerObject.transform.parent = mapObject.transform;
-        foreach (var entity in map.entityLayer.entities)
+        entitiesLayer = new GameObject(Layers.Entities.ToString());
+        entitiesLayer.transform.parent = mapObject.transform;
+
+        InstantiateEntities(map);
+    }
+
+    public void InstantiateEntities(GameMap map)
+    {
+        foreach (Transform child in entitiesLayer.transform)
+            Destroy(child.gameObject);
+
+        foreach (var entity in map.entities)
         {
-            var entityObject = Instantiate(entityPrefab, layerObject.transform);
-            entityObject.transform.localPosition = new Vector3(entity.location.x, entity.location.y, 0);
-            entityObject.GetComponent<SpriteRenderer>().sprite = entity.image;
-            entityObject.GetComponent<EntityBehaviour>().gameEntity = entity;
+            var entityObject = Instantiate(entityPrefab, entitiesLayer.transform);
+            entityObject.name = string.IsNullOrEmpty(entity.name) ? "Entity" : entity.name;
+            
+            var entityBehaviour = entityObject.GetComponent<EntityBehaviour>();
+
+            EntityBehaviour currentBehaviour = null;
+            foreach (var behaviour in GameState.main.currentEntityBehaviours)
+            {
+                if (behaviour.gameEntity == entity)
+                {
+                    currentBehaviour = behaviour;
+                    break;
+                }
+            }
+
+            entityBehaviour.gameEntity = currentBehaviour?.gameEntity ?? entity;
+            entityBehaviour.location = currentBehaviour?.location ?? entity.location;
+
+            entityObject.transform.localPosition = new Vector3(entityBehaviour.location.x, entityBehaviour.location.y, 0);
+
+            ProcessState(entityBehaviour);
+
+            entityObject.GetComponent<SpriteRenderer>().sprite = entityBehaviour.currentState.image;
+
+            if (currentBehaviour != null)
+                GameState.main.currentEntityBehaviours.Remove(currentBehaviour); 
+
+            GameState.main.currentEntityBehaviours.Add(entityBehaviour);
+        }
+    }
+
+    void ProcessState(EntityBehaviour entityBehaviour)
+    {
+        foreach (var key in entityBehaviour.gameEntity.states.Keys)
+        {
+            var state = entityBehaviour.gameEntity.states[key];
+
+            // sets the default first that won't have any conditions
+            if (key == GameEntityState.DEFAULT_STATE_NAME)
+            {
+                entityBehaviour.currentState = state;
+                continue;
+            }
+
+            // checks switch first
+            if (state.switchCheck)
+            {
+                // didn't pass, go to the next
+                if (!GameState.main.switches.ContainsKey(state.switchCheckName) || GameState.main.switches[state.switchCheckName] != state.switchCheckValue)
+                {
+                    continue;
+                }
+            }
+
+            // checks variable
+            if (state.variableCheck)
+            {
+                // didn't pass, go to the next
+                if (!GameState.main.variables.ContainsKey(state.variableCheckName) || GameState.main.variables[state.variableCheckName] != state.variableCheckValue)
+                {
+                    continue;
+                }
+            }
+
+            // all passed, this is the current state
+            entityBehaviour.currentState = state;
+            break;
         }
     }
 
@@ -96,7 +198,8 @@ public class GameMasterBehaviour : MonoBehaviour
                     obj.transform.localPosition = new Vector3(x, y, 0);
 
                     var spriteRenderer = obj.AddComponent<SpriteRenderer>();
-                    spriteRenderer.sprite = map.tileset.tiles[tid];
+                    spriteRenderer.sprite = GameTileset.masterTileset.tiles[tid];
+                    spriteRenderer.sortingOrder = layerType == Layers.Above ? 1 : 0;
                 }
             }
         }

@@ -31,5 +31,20 @@ namespace Assets.Source.Events
                 finishedExecution = true;
             }
         }
+
+        public override PersistenceData GetData()
+        {
+            var data = new PersistenceData();
+
+            data.Set("event", GetType().FullName);
+            data.Set("message", message);
+
+            return data;
+        }
+
+        public override void SetData(PersistenceData data)
+        {
+            message = data.Get("message", message);
+        }
     }
 }

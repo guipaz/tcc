@@ -46,14 +46,14 @@ public class Editor_MapController : MonoBehaviour
         layer.transform.parent = transform;
         layer.transform.localPosition = new Vector3(0, 0, 0);
 
-        foreach (var gameEntity in Global.currentMap.entityLayer.entities)
+        foreach (var gameEntity in Global.currentMap.entities)
         {
             var entity = Instantiate(entityPrefab, layer.transform);
             entity.transform.localPosition = new Vector3((int)(gameEntity.location.x + 0.5f), (int)(gameEntity.location.y + 0.5f), 0);
 
             var editorEntity = entity.GetComponent<EditorEntity>();
             editorEntity.gameEntity = gameEntity;
-            editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity?.gameEntity?.image ?? Resources.Load<Sprite>("ICO_Feint");
+            editorEntity.GetComponent<SpriteRenderer>().sprite = editorEntity?.gameEntity?.states[GameEntityState.DEFAULT_STATE_NAME].image ?? Resources.Load<Sprite>("icon_entity");
         }
 
         // camera position
@@ -74,7 +74,7 @@ public class Editor_MapController : MonoBehaviour
 
                 var obj = Instantiate(tilePrefab, layer.transform, true);
                 obj.transform.localPosition = new Vector3(x, y, 0);
-                obj.GetComponent<SpriteRenderer>().sprite = tid != -1 ? Global.currentMap.tileset.tiles[tid] : null;
+                obj.GetComponent<SpriteRenderer>().sprite = tid != -1 ? GameTileset.masterTileset.tiles[tid] : null;
 
                 var editorTile = obj.GetComponent<EditorTile>();
                 editorTile.x = x;

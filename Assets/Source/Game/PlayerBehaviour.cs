@@ -7,6 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
     Vector2 mov;
 
     public Vector2 interactionVector;
+    public const string PLAYER_ID = "Jogador";
 
     void Update()
     {
@@ -19,7 +20,7 @@ public class PlayerBehaviour : MonoBehaviour
         mov.x = 0;
         mov.y = 0;
 
-        GameEntity interactionEntity = null;
+        EntityBehaviour interactionEntity = null;
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
             mov.x = 1;
@@ -38,38 +39,39 @@ public class PlayerBehaviour : MonoBehaviour
 
             // collision
             var blockedByEntity = false;
-            foreach (var entity in Global.currentMap.entityLayer.entities)
+            foreach (var entity in GameState.main.currentEntityBehaviours)
             {
                 if (entity.location == finalPos)
                 {
-                    if (entity.passable && entity.execution == EntityExecution.Contact)
+                    if (entity.currentState.passable && entity.currentState.execution == EntityExecution.Contact)
                     {
                         interactionEntity = entity;
                     }
                     else
                     {
-                        blockedByEntity = true;
+                        blockedByEntity = !entity.currentState.passable;
                     }
                     
                     break;
                 }
             }
 
-            if (Global.currentMap.IsInside((int)finalPos.x, (int)finalPos.y) && !blockedByEntity && Global.currentMap.constructionLayer.tids[(int)finalPos.x, (int)finalPos.y] == -1)
+            if (GameState.main.currentGameMap.IsInside((int)finalPos.x, (int)finalPos.y) && !blockedByEntity && GameState.main.currentGameMap.constructionLayer.tids[(int)finalPos.x, (int)finalPos.y] == -1)
             {
                 transform.localPosition = new Vector3(finalPos.x, finalPos.y, transform.localPosition.z);
+                GetComponent<EntityBehaviour>().location = new Vector2(finalPos.x, finalPos.y);
                 CenterCamera();
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            foreach (var entity in Global.currentMap.entityLayer.entities)
+            foreach (var entity in GameState.main.currentEntityBehaviours)
             {
                 var interactionLocation = new Vector2(transform.localPosition.x + interactionVector.x,
                     transform.localPosition.y + interactionVector.y);
 
-                if (entity.location == interactionLocation && entity.execution == EntityExecution.Interaction)
+                if (entity.location == interactionLocation && entity.currentState.execution == EntityExecution.Interaction)
                 {
                     interactionEntity = entity;
                     break;

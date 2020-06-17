@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Source.Model;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Panel_Tiles : MonoBehaviour
@@ -32,7 +33,7 @@ public class Panel_Tiles : MonoBehaviour
             Destroy(child.gameObject);
 
         var tid = 0;
-        foreach (var tile in Global.currentMap.tileset.tiles)
+        foreach (var tile in GameTileset.masterTileset.tiles)
         {
             var currentTid = tid;
             var obj = Instantiate(tilePrefab, container.transform);
