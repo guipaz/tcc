@@ -10,22 +10,35 @@ public class EventPanel_ChangeImage : MonoBehaviour, IEventParameterPanel
     public Image spriteImage;
 
     Action<GameEvent> action;
+    ChangeImageEvent currentEvent;
 
     public void OK()
     {
-        var ev = new ChangeImageEvent
+        if (currentEvent == null)
         {
-            id = entityNameField.text,
-            sprite = spriteImage.sprite
-        };
+            currentEvent = new ChangeImageEvent();
+        }
 
-        action?.Invoke(ev);
+        currentEvent.id = entityNameField.text;
+        currentEvent.sprite = spriteImage.sprite;
+
+
+        action?.Invoke(currentEvent);
         Global.master.ClosePanel(gameObject, true);
+
+        currentEvent = null;
     }
 
-    public void OnCreateEvent(Action<GameEvent> action)
+    public void OnSaveEvent(Action<GameEvent> action)
     {
         this.action = action;
+    }
+
+    public void SetData(GameEvent ev)
+    {
+        currentEvent = ev as ChangeImageEvent;
+        entityNameField.text = currentEvent.id;
+        spriteImage.sprite = currentEvent.sprite;
     }
 
     public void SelectImage()

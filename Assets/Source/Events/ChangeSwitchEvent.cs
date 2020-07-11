@@ -49,5 +49,10 @@ namespace Assets.Source.Events
             id = data.Get("id", id);
             value = data.Get("value", value);
         }
+
+        public override string GetEventType()
+        {
+            return "changeSwitch";
+        }
     }
 }

@@ -13,22 +13,38 @@ public class EventPanel_MoveEntity : MonoBehaviour, IEventParameterPanel
 
     Action<GameEvent> action;
 
+    MoveEntityEvent currentEvent;
+
     public void OK()
     {
-        var ev = new MoveEntityEvent
+        if (currentEvent == null)
         {
-            id = entityField.text,
-            relative = relativeField.value == 0
-        };
-        int.TryParse(xField.text, out ev.x);
-        int.TryParse(yField.text, out ev.y);
+            currentEvent = new MoveEntityEvent();
+        }
 
-        action?.Invoke(ev);
+        currentEvent.id = entityField.text;
+        currentEvent.relative = relativeField.value == 0;
+
+        int.TryParse(xField.text, out currentEvent.x);
+        int.TryParse(yField.text, out currentEvent.y);
+
+        action?.Invoke(currentEvent);
         Global.master.ClosePanel(gameObject, true);
+
+        currentEvent = null;
     }
 
-    public void OnCreateEvent(Action<GameEvent> action)
+    public void OnSaveEvent(Action<GameEvent> action)
     {
         this.action = action;
+    }
+
+    public void SetData(GameEvent ev)
+    {
+        currentEvent = ev as MoveEntityEvent;
+        entityField.text = currentEvent.id;
+        relativeField.value = currentEvent.relative ? 0 : 1;
+        xField.text = currentEvent.x.ToString();
+        yField.text = currentEvent.y.ToString();
     }
 }

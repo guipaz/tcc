@@ -17,6 +17,11 @@ public class Panel_SelectEvent : MonoBehaviour, IEditorPanel
 
     public void OpenParameterScreen(string eventType)
     {
+        OpenParameterScreen(eventType, null);
+    }
+
+    public void OpenParameterScreen(string eventType, GameEvent currentEvent)
+    {
         GameObject prefab = null;
 
         if (eventType == "message")
@@ -35,11 +40,16 @@ public class Panel_SelectEvent : MonoBehaviour, IEditorPanel
         if (prefab != null)
         {
             var panel = Instantiate(prefab, Global.canvasObject.transform);
-            panel.GetComponent<IEventParameterPanel>().OnCreateEvent(ev =>
+            panel.GetComponent<IEventParameterPanel>().OnSaveEvent(ev =>
             {
                 OnSelected?.Invoke(ev);
                 Global.master.ClosePanel(gameObject);
             });
+
+            if (currentEvent != null)
+            {
+                panel.GetComponent<IEventParameterPanel>().SetData(currentEvent);
+            }
         }
     }
 

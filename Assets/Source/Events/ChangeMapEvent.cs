@@ -49,5 +49,10 @@ namespace Assets.Source.Events
             x = data.Get("x", x);
             y = data.Get("y", y);
         }
+
+        public override string GetEventType()
+        {
+            return "changeMap";
+        }
     }
 }

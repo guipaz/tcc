@@ -14,4 +14,5 @@ public static class Global
     public static GameObject canvasObject;
     public static Dictionary<string, GameTileset> tilesets;
     public static string loadGame;
+    public static Sprite[] TilesetSprites;
 }

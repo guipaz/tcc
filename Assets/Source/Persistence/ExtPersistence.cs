@@ -41,7 +41,7 @@ public static class ExtPersistence
         var param = str.Split(';');
 
         Texture2D tex = null;
-        foreach (var sprite in Global.master.Tilesets)
+        foreach (var sprite in Global.TilesetSprites)
         {
             if (sprite.name == param[0])
             {

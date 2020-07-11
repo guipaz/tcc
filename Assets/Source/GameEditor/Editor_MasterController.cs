@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Assets;
 using Assets.Source.Model;
 using UnityEngine;
@@ -15,18 +14,10 @@ public class Editor_MasterController : MonoBehaviour
     public GameObject SelectEventPanel;
     public GameObject CharacterPanel;
     public GameObject StatesPanel;
-    public Sprite[] Tilesets;
 
     public void Awake()
     {
         Global.master = this;
-
-        // slices the tilesets for use later
-        Global.tilesets = new Dictionary<string, GameTileset>();
-        foreach (var sprite in Tilesets)
-        {
-            Global.tilesets[sprite.name] = new GameTileset(sprite.name, sprite);
-        }
 
         if (Global.loadGame != null)
         {
@@ -47,8 +38,7 @@ public class Editor_MasterController : MonoBehaviour
     {
         CommitCurrentMap();
 
-        //TODO
-        Persistor.instance.SaveFile<Game>(Persistor.DEFAULT_FOLDER + "save1.json", new [] { Global.game });
+        Persistor.instance.SaveFile<Game>(Persistor.DEFAULT_FOLDER + Global.game.fileName + ".json", new [] { Global.game });
     }
 
     public void Exit()
@@ -64,9 +54,8 @@ public class Editor_MasterController : MonoBehaviour
 
     public void Start()
     {
-        if (Global.game == null)
+        if (Global.game.maps.Count == 0)
         {
-            Global.game = new Game();
             Global.game.maps.Add(new GameMap(20, 20) { name = "Mapa 1" });
         }
 

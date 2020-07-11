@@ -78,5 +78,10 @@ namespace Assets.Source.Events
             operation = data.Get("operation", operation);
             value = data.Get("value", value);
         }
+
+        public override string GetEventType()
+        {
+            return "changeVariable";
+        }
     }
 }

@@ -3,6 +3,7 @@ using Assets;
 using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.UI;
+using GameEntityState = Assets.Source.Model.GameEntityState;
 
 public class Panel_States : MonoBehaviour, IEditorPanel
 {
@@ -135,6 +136,6 @@ public class Panel_States : MonoBehaviour, IEditorPanel
     {
         ClearFields();
 
-        selectedState = new GameEntityState();
+        selectedState = new GameEntityState {image = entity.states[GameEntityState.DEFAULT_STATE_NAME].image};
     }
 }

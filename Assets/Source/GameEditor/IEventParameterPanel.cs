@@ -3,5 +3,6 @@ using Assets.Source.Model;
 
 public interface IEventParameterPanel
 {
-    void OnCreateEvent(Action<GameEvent> action);
+    void OnSaveEvent(Action<GameEvent> action);
+    void SetData(GameEvent ev);
 }

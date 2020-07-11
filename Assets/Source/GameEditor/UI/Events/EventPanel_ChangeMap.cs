@@ -12,22 +12,36 @@ public class EventPanel_ChangeMap : MonoBehaviour, IEventParameterPanel
     public InputField yField;
 
     Action<GameEvent> action;
+    ChangeMapEvent currentEvent;
 
     public void OK()
     {
-        var ev = new ChangeMapEvent
+        if (currentEvent == null)
         {
-            mapName = mapNameField.text
-        };
-        int.TryParse(xField.text, out ev.x);
-        int.TryParse(yField.text, out ev.y);
+            currentEvent = new ChangeMapEvent();
+        }
 
-        action?.Invoke(ev);
+        currentEvent.mapName = mapNameField.text;
+
+        int.TryParse(xField.text, out currentEvent.x);
+        int.TryParse(yField.text, out currentEvent.y);
+
+        action?.Invoke(currentEvent);
         Global.master.ClosePanel(gameObject, true);
+
+        currentEvent = null;
     }
 
-    public void OnCreateEvent(Action<GameEvent> action)
+    public void OnSaveEvent(Action<GameEvent> action)
     {
         this.action = action;
+    }
+
+    public void SetData(GameEvent ev)
+    {
+        currentEvent = ev as ChangeMapEvent;
+        mapNameField.text = currentEvent.mapName;
+        xField.text = currentEvent.x.ToString();
+        yField.text = currentEvent.y.ToString();
     }
 }

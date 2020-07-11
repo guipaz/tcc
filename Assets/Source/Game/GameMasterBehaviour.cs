@@ -176,7 +176,8 @@ public class GameMasterBehaviour : MonoBehaviour
 
             // all passed, this is the current state
             entityBehaviour.currentState = state;
-            break;
+
+            // either way, will continue iterating because the last one is the one that has most priority
         }
     }
 

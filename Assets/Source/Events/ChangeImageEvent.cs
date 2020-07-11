@@ -49,5 +49,10 @@ namespace Assets.Source.Events
             id = data.Get("id", id);
             sprite = data.Get("sprite", sprite);
         }
+
+        public override string GetEventType()
+        {
+            return "changeSprite";
+        }
     }
 }

@@ -46,5 +46,10 @@ namespace Assets.Source.Events
         {
             message = data.Get("message", message);
         }
+
+        public override string GetEventType()
+        {
+            return "message";
+        }
     }
 }

@@ -85,5 +85,10 @@ namespace Assets.Source.Events
             immediate = data.Get("immediate", immediate);
             relative = data.Get("relative", relative);
         }
+
+        public override string GetEventType()
+        {
+            return "moveEntity";
+        }
     }
 }

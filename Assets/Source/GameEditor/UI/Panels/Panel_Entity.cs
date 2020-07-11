@@ -61,6 +61,14 @@ public class Panel_Entity : MonoBehaviour, IEditorPanel
             Destroy(eventInfo);
             currentState.events.Remove(ev);
         };
+        eventInfo.GetComponent<EventInfo>().OnEdit = () =>
+        {
+            Global.master.SelectEventPanel.GetComponent<Panel_SelectEvent>().OpenParameterScreen(ev.GetEventType(), ev);
+            Global.master.SelectEventPanel.GetComponent<Panel_SelectEvent>().OnSelected = edit =>
+            {
+                eventInfo.GetComponent<EventInfo>().Set(edit);
+            };
+        };
     }
 
     public void SetData(EditorEntity editorEntity)

@@ -13,22 +13,36 @@ public class EventPanel_ChangeVariable : MonoBehaviour, IEventParameterPanel
 
     Action<GameEvent> action;
 
+    ChangeVariableEvent currentEvent;
+
     public void OK()
     {
-        var ev = new ChangeVariableEvent()
+        if (currentEvent == null)
         {
-            id = switchNameField.text,
-            operation = operationField.value
-        };
+            currentEvent = new ChangeVariableEvent();
+        }
 
-        int.TryParse(valueField.text, out ev.value);
+        currentEvent.id = switchNameField.text;
+        currentEvent.operation = operationField.value;
 
-        action?.Invoke(ev);
+        int.TryParse(valueField.text, out currentEvent.value);
+
+        action?.Invoke(currentEvent);
         Global.master.ClosePanel(gameObject, true);
+
+        currentEvent = null;
     }
 
-    public void OnCreateEvent(Action<GameEvent> action)
+    public void OnSaveEvent(Action<GameEvent> action)
     {
         this.action = action;
+    }
+
+    public void SetData(GameEvent ev)
+    {
+        currentEvent = ev as ChangeVariableEvent;
+        switchNameField.text = currentEvent.id;
+        operationField.value = currentEvent.operation;
+        valueField.text = currentEvent.value.ToString();
     }
 }

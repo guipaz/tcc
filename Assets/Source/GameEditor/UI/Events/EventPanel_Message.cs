@@ -11,17 +11,31 @@ public class EventPanel_Message : MonoBehaviour, IEventParameterPanel
 
     Action<GameEvent> action;
 
+    MessageEvent currentEvent;
+
     public void OK()
     {
-        action?.Invoke(new MessageEvent
+        if (currentEvent == null)
         {
-            message = textField.text
-        });
+            currentEvent = new MessageEvent();
+        }
+
+        currentEvent.message = textField.text;
+
+        action?.Invoke(currentEvent);
         Global.master.ClosePanel(gameObject, true);
+
+        currentEvent = null;
     }
 
-    public void OnCreateEvent(Action<GameEvent> action)
+    public void OnSaveEvent(Action<GameEvent> action)
     {
         this.action = action;
+    }
+
+    public void SetData(GameEvent ev)
+    {
+        currentEvent = ev as MessageEvent;
+        textField.text = currentEvent.message;
     }
 }

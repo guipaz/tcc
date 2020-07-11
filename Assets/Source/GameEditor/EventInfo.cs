@@ -10,6 +10,7 @@ public class EventInfo : MonoBehaviour
 
     public GameEvent gameEvent;
     public Action OnDelete;
+    public Action OnEdit;
 
     public void Set(GameEvent ev)
     {
@@ -21,5 +22,10 @@ public class EventInfo : MonoBehaviour
     public void Delete()
     {
         OnDelete?.Invoke();
+    }
+
+    public void Edit()
+    {
+        OnEdit?.Invoke();
     }
 }

@@ -4,14 +4,15 @@ namespace Assets.Source.Model
 {
     public class Game : IPersistent
     {
+        public string name;
+        public string fileName;
+
         public List<GameMap> maps;
-        //public List<GameItem> items;
         public GamePlayer player;
 
         public Game()
         {
             maps = new List<GameMap>();
-            //items = new List<GameItem>();
             player = new GamePlayer();
         }
 
@@ -23,6 +24,8 @@ namespace Assets.Source.Model
             foreach (var map in maps)
                 mapsData.Add(map.GetData());
 
+            data.Set("name", name);
+            data.Set("fileName", fileName);
             data.Set("maps", mapsData);
             data.Set("player", player.GetData());
 
@@ -31,6 +34,9 @@ namespace Assets.Source.Model
 
         public void SetData(PersistenceData data)
         {
+            name = data.Get("name", name);
+            fileName = data.Get("fileName", fileName);
+
             var mapsData = data.Get<List<PersistenceData>>("maps");
             foreach (var mapData in mapsData)
             {

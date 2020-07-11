@@ -11,5 +11,6 @@
         public abstract void Update();
         public abstract PersistenceData GetData();
         public abstract void SetData(PersistenceData data);
+        public abstract string GetEventType();
     }
 }

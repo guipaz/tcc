@@ -11,21 +11,33 @@ public class EventPanel_ChangeSwitch : MonoBehaviour, IEventParameterPanel
     public Dropdown valueField;
 
     Action<GameEvent> action;
+    ChangeSwitchEvent currentEvent;
 
     public void OK()
     {
-        var ev = new ChangeSwitchEvent()
+        if (currentEvent == null)
         {
-            id = switchNameField.text,
-            value = valueField.value == 0
-        };
+            currentEvent = new ChangeSwitchEvent();
+        }
 
-        action?.Invoke(ev);
+        currentEvent.id = switchNameField.text;
+        currentEvent.value = valueField.value == 0;
+
+        action?.Invoke(currentEvent);
         Global.master.ClosePanel(gameObject, true);
+
+        currentEvent = null;
     }
 
-    public void OnCreateEvent(Action<GameEvent> action)
+    public void OnSaveEvent(Action<GameEvent> action)
     {
         this.action = action;
+    }
+
+    public void SetData(GameEvent ev)
+    {
+        currentEvent = ev as ChangeSwitchEvent;
+        switchNameField.text = currentEvent.id;
+        valueField.value = currentEvent.value ? 0 : 1;
     }
 }
