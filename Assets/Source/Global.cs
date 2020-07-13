@@ -15,4 +15,5 @@ public static class Global
     public static Dictionary<string, GameTileset> tilesets;
     public static string loadGame;
     public static Sprite[] TilesetSprites;
+    public static bool playGame;
 }

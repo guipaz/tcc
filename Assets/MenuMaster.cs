@@ -24,6 +24,7 @@ public class MenuMaster : MonoBehaviour
     {
         gamesPanel.Open(file =>
         {
+            Global.playGame = false;
             Global.loadGame = file;
             SceneManager.LoadScene("EditorScene");
         });
@@ -33,6 +34,7 @@ public class MenuMaster : MonoBehaviour
     {
         gamesPanel.Open(file =>
         {
+            Global.playGame = true;
             Global.game = Persistor.instance.LoadFile<Game>(Persistor.DEFAULT_FOLDER + file).ToList()[0];
             SceneManager.LoadScene("PlayScene");
         });

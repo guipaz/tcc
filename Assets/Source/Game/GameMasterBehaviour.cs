@@ -1,7 +1,9 @@
 ﻿using Assets.Source;
+using Assets.Source.Game;
 using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using GameState = Assets.Source.Game.GameState;
 
 public class GameMasterBehaviour : MonoBehaviour
@@ -10,6 +12,16 @@ public class GameMasterBehaviour : MonoBehaviour
 
     public PlayerBehaviour player;
     public GameObject entityPrefab;
+    
+    public GameObject gameNamePanel;
+    public Text gameNameText;
+
+    public bool IsPlayerLocked => currentTransition != null;
+
+    Transition startingTransition;
+    Transition endingTransition;
+
+    Transition currentTransition;
 
     GameObject entitiesLayer;
 
@@ -29,8 +41,73 @@ public class GameMasterBehaviour : MonoBehaviour
         var startingX = Global.game.player.startingX;
         var startingY = Global.game.player.startingY;
 
-        //TODO set first map and position
         GameState.main.ChangeMap(startingMap, startingX, startingY);
+
+        startingTransition = new Transition
+        {
+            duration = 3,
+            OnStart = () =>
+            {
+                gameNamePanel.SetActive(true);
+                gameNamePanel.GetComponent<CanvasGroup>().alpha = 1;
+                gameNameText.text = Global.game.name;
+            },
+            OnUpdate = timeLeft =>
+            {
+                if (timeLeft <= 1)
+                {
+                    gameNamePanel.GetComponent<CanvasGroup>().alpha = timeLeft;
+                }
+            },
+            OnFinish = () =>
+            {
+                gameNamePanel.SetActive(false);
+                currentTransition = null;
+            }
+        };
+
+        endingTransition = new Transition
+        {
+            duration = 5,
+            OnStart = () =>
+            {
+                gameNamePanel.SetActive(true);
+                gameNamePanel.GetComponent<CanvasGroup>().alpha = 0;
+                gameNameText.text = "Fim";
+            },
+            OnUpdate = timeLeft =>
+            {
+                if (timeLeft >= 4)
+                {
+                    gameNamePanel.GetComponent<CanvasGroup>().alpha = 5 - timeLeft;
+                }
+                else
+                {
+                    gameNamePanel.GetComponent<CanvasGroup>().alpha = 1;
+                }
+            },
+            OnFinish = () =>
+            {
+                currentTransition = null;
+                ExitGame();
+            }
+        };
+
+        PlayTransition(startingTransition);
+    }
+
+    void ExitGame()
+    {
+        if (Global.playGame)
+            SceneManager.LoadScene("MenuScene");
+        else
+            SceneManager.LoadScene("EditorScene");
+    }
+
+    void PlayTransition(Transition t)
+    {
+        currentTransition = t;
+        t?.Play();
     }
 
     public GameObject GetEntityObject(string id)
@@ -53,9 +130,14 @@ public class GameMasterBehaviour : MonoBehaviour
 
     public void Update()
     {
+        if (currentTransition?.Update() ?? false)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("EditorScene");
+            ExitGame();
             return;
         }
 
@@ -204,5 +286,10 @@ public class GameMasterBehaviour : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void EndGame()
+    {
+        PlayTransition(endingTransition);
     }
 }

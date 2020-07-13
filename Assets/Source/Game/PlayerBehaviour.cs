@@ -12,7 +12,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         // entity being executed
-        if (GameState.main.currentExecutedEntity != null)
+        if (GameState.main.currentExecutedEntity != null || GameMasterBehaviour.main.IsPlayerLocked)
         {
             return;
         }

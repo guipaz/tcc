@@ -31,6 +31,7 @@ public class CreateGamePanel : MonoBehaviour
             fileName = file
         };
 
+        Global.playGame = false;
         SceneManager.LoadScene("EditorScene");
     }
 }

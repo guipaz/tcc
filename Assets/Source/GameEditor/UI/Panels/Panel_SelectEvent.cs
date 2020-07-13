@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets;
 using Assets.Source;
+using Assets.Source.Events;
 using Assets.Source.Model;
 using UnityEngine;
 
@@ -50,6 +51,11 @@ public class Panel_SelectEvent : MonoBehaviour, IEditorPanel
             {
                 panel.GetComponent<IEventParameterPanel>().SetData(currentEvent);
             }
+        }
+        else if (eventType == "endGame")
+        {
+            OnSelected?.Invoke(new EndGameEvent());
+            Global.master.ClosePanel(gameObject);
         }
     }
 
