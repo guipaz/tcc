@@ -25,6 +25,8 @@ public class GameMasterBehaviour : MonoBehaviour
 
     GameObject entitiesLayer;
 
+    bool reprocessQueued;
+
     void Start()
     {
         main = this;
@@ -167,6 +169,15 @@ public class GameMasterBehaviour : MonoBehaviour
                 GameState.main.currentExecutedEntity = null;
             }
         }
+        else if (reprocessQueued)
+        {
+            EntityBehaviour currentBehaviour = null;
+            foreach (var behaviour in GameState.main.currentEntityBehaviours)
+            {
+                ProcessState(behaviour);
+            }
+            reprocessQueued = false;
+        }
     }
 
     public void InstantiateMap(GameMap map)
@@ -214,13 +225,16 @@ public class GameMasterBehaviour : MonoBehaviour
 
             ProcessState(entityBehaviour);
 
-            entityObject.GetComponent<SpriteRenderer>().sprite = entityBehaviour.currentState.image;
-
             if (currentBehaviour != null)
                 GameState.main.currentEntityBehaviours.Remove(currentBehaviour); 
 
             GameState.main.currentEntityBehaviours.Add(entityBehaviour);
         }
+    }
+
+    public void ReprocessStates()
+    {
+        reprocessQueued = true;
     }
 
     void ProcessState(EntityBehaviour entityBehaviour)
@@ -261,6 +275,8 @@ public class GameMasterBehaviour : MonoBehaviour
 
             // either way, will continue iterating because the last one is the one that has most priority
         }
+
+        entityBehaviour.GetComponent<SpriteRenderer>().sprite = entityBehaviour.currentState.image;
     }
 
     void InstantiateLayer(GameObject mapObject, GameMap map, Layers layerType, GameMapTileLayer layer, int depth)

@@ -45,10 +45,6 @@ namespace Assets.Source.Events
                     obj.GetComponent<EntityBehaviour>().location = currentLocation;
                     obj.GetComponent<Transform>().localPosition = new Vector3(currentLocation.x, currentLocation.y,
                         GameMasterBehaviour.main.player.transform.localPosition.z);
-
-                    var player = obj.GetComponent<PlayerBehaviour>();
-                    if (player != null)
-                        player.CenterCamera();
                 }
                 else
                 {

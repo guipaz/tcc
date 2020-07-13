@@ -50,7 +50,6 @@ namespace Assets.Source.Game
             GameMasterBehaviour.main.InstantiateMap(currentGameMap);
             GameMasterBehaviour.main.player.GetComponent<EntityBehaviour>().gameEntity.location = new Vector2(x, y);
             GameMasterBehaviour.main.player.transform.localPosition = new Vector3(x, currentGameMap.height - y - 1, GameMasterBehaviour.main.player.transform.localPosition.z);
-            GameMasterBehaviour.main.player.CenterCamera();
 
             foreach (var e in currentEntityBehaviours)
             {
@@ -60,6 +59,8 @@ namespace Assets.Source.Game
                     break;
                 }
             }
+
+            GameMasterBehaviour.main.player.CenterCamera();
         }
 
         public void Clear()

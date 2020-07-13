@@ -51,7 +51,9 @@ namespace Assets.Source.Events
             }
 
             // revalidates entities
-            GameMasterBehaviour.main.InstantiateEntities(GameState.main.currentGameMap);
+            //GameMasterBehaviour.main.InstantiateEntities(GameState.main.currentGameMap);
+
+            GameMasterBehaviour.main.ReprocessStates();
 
             finishedExecution = true;
         }

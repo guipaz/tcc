@@ -9,12 +9,21 @@ public class PlayerBehaviour : MonoBehaviour
     public Vector2 interactionVector;
     public const string PLAYER_ID = "Jogador";
 
+    float moveCooldown;
+
     void Update()
     {
+        CenterCamera();
+
         // entity being executed
         if (GameState.main.currentExecutedEntity != null || GameMasterBehaviour.main.IsPlayerLocked)
         {
             return;
+        }
+        
+        if (moveCooldown > 0)
+        {
+            moveCooldown -= Time.deltaTime;
         }
 
         mov.x = 0;
@@ -22,17 +31,18 @@ public class PlayerBehaviour : MonoBehaviour
 
         EntityBehaviour interactionEntity = null;
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
             mov.x = 1;
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
             mov.x = -1;
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
             mov.y = 1;
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
             mov.y = -1;
 
-        if (mov != Vector2.zero)
+        if (mov != Vector2.zero && moveCooldown <= 0)
         {
+            moveCooldown = 0.2f;
             interactionVector = mov;
 
             var finalPos = new Vector2(transform.localPosition.x + mov.x, transform.localPosition.y + mov.y);
@@ -60,6 +70,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 transform.localPosition = new Vector3(finalPos.x, finalPos.y, transform.localPosition.z);
                 GetComponent<EntityBehaviour>().location = new Vector2(finalPos.x, finalPos.y);
+
                 CenterCamera();
             }
         }
@@ -88,5 +99,11 @@ public class PlayerBehaviour : MonoBehaviour
     public void CenterCamera()
     {
         Camera.main.transform.localPosition = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.localPosition.z);
+    }
+
+    void MoveCamera()
+    {
+        Camera.main.transform.localPosition = Vector3.MoveTowards(Camera.main.transform.localPosition,
+            new Vector3(transform.position.x, transform.position.y, Camera.main.transform.localPosition.z), 0.1f);
     }
 }

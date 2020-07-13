@@ -24,7 +24,8 @@ namespace Assets.Source.Events
             GameState.main.switches[id] = value;
 
             // revalidates entities
-            GameMasterBehaviour.main.InstantiateEntities(GameState.main.currentGameMap);
+            //GameMasterBehaviour.main.InstantiateEntities(GameState.main.currentGameMap);
+            GameMasterBehaviour.main.ReprocessStates();
 
             finishedExecution = true;
         }
